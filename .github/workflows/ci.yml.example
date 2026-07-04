@@ -1,0 +1,45 @@
+# Ví dụ CI/CD cho dự án — GitHub Actions 
+#
+# Pipeline minh họa:
+#   1. Cài dependencies
+#   2. Khởi động API mẫu
+#   3. Chạy Newman (Postman collection)
+#   4. Chạy Pact contract test
+
+name: CI (example)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # - name: Install & start sample API
+      #   run: |
+      #     cd src/sample-api
+      #     npm ci
+      #     npm start &
+      #     npx wait-on http://localhost:3000/health
+
+      # - name: Run Newman
+      #   run: |
+      #     npm install -g newman
+      #     newman run src/postman/collections/main.postman_collection.json \
+      #       -e src/postman/environments/ci.postman_environment.json
+
+      # - name: Run Pact contract tests
+      #   run: |
+      #     cd src/pact/consumer && npm ci && npm test
+      #     cd ../provider && npm ci && npm run verify
+
+      - name: Placeholder
+        run: echo "CI sẽ được cấu hình khi có code demo."
