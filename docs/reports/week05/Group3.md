@@ -34,6 +34,12 @@
 
 ## AI Usage Declaration
 
+- Các thành viên nhóm đã sử dụng các công cụ AI (Gemini, Claude, ChatGPT,...) để hỗ trợ nghiên cứu tài liệu, thiết kế kịch bản kiểm thử và soạn thảo nội dung báo cáo.
+
+| Thành viên | Công cụ AI | Thời gian truy cập | Mục đích sử dụng | Minh chứng |
+| :--- | :--- | :--- | :--- | :--- |
+| **Ngô Nguyễn Thế Khoa**<br>(23127065) | Gemini 3.5 Flash (Medium) | 21:15 ngày 08/07/2026 | Tra cứu tài liệu và soạn thảo tài liệu lý thuyết chi tiết về Contract Testing (so sánh với Integration & E2E Testing, mô hình Consumer-driven). | [AI Audit Report](/docs/reports/week05/AI%20Usage/KhoaNgo/AI_Audit_Report.md) |
+
 ## Tasks Planned for Next Week
 
 - Triển khai kỹ thuật API testing nâng cao (Data-driven, chaining API) và viết mã nguồn kiểm thử Contract Testing với Pact (Consumer & Provider).
