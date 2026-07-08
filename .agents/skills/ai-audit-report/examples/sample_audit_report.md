@@ -33,8 +33,6 @@
 
 ## Chi tiết từng lần sử dụng AI (Detailed AI Interaction Log)
 
-### Feature: Seminar W4 — API Testing Theory Document
-
 ### Entry 1 — Nghiên cứu và soạn thảo lý thuyết API Testing
 
 | Field              | Value                                                           |
