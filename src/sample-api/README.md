@@ -2,7 +2,7 @@
 
 API mẫu dùng **xuyên suốt** các demo Postman / Newman / Pact của nhóm.
 
-Gồm 2 dịch vụ độc lập, nằm trong `pact-workshop-js/` (fork từ repo chính chủ
+Gồm 2 dịch vụ độc lập, nằm trong `pact-workshop-js/` (clone từ repo chính chủ
 [`pact-foundation/pact-workshop-js`](https://github.com/pact-foundation/pact-workshop-js)):
 
 | Dịch vụ | Vai trò | Thư mục | Port mặc định |
@@ -59,7 +59,7 @@ Kết quả mẫu:
  {"id":"11","type":"PERSONAL_LOAN","name":"MyFlexiPay","version":"v2"}]
 ```
 
-## Đã có sẵn trong repo (chưa dùng đến ở bước này)
+## Lưu ý làm rõ
 
 Repo gốc là một workshop nhiều bước nên còn kèm theo:
 - `consumer/src/api.spec.js`, `consumer/src/api.pact.spec.js`, `provider/product/product.pact.test.js` — test đơn vị & Pact test mẫu.
@@ -69,7 +69,3 @@ Repo gốc là một workshop nhiều bước nên còn kèm theo:
 Các phần này sẽ được nhóm khai thác dần ở các tuần Contract Testing với Pact
 (`src/pact/`) và khi triển khai Auth JWT — không cần đụng tới để chỉ chạy API mẫu.
 
-## Nguồn gốc
-
-Fork nguyên trạng từ [`pact-foundation/pact-workshop-js`](https://github.com/pact-foundation/pact-workshop-js)
-(giấy phép & tài liệu gốc xem tại `pact-workshop-js/README.md`).
