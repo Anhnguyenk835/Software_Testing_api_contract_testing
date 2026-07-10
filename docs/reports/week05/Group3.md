@@ -25,12 +25,13 @@
 
 ### 23127148 – Ân Tiến Nguyên An
 
+- Hoàn thiện skill ai-audit-report để cho cả nhóm cùng sử dụng cho mục AI USAGE
 - Thiết kế kịch bản kiểm thử hợp đồng Pact cho Product Service (xác định rõ cấu trúc dữ liệu, kiểu dữ liệu, các trường bắt buộc mà Consumer kỳ vọng ở Provider cho các endpoint GET `/products` và GET `/product/:id`).
 - Đăng ký và cấu hình tài khoản Pactflow Broker để quản lý hợp đồng trực tuyến.
 
 ### 23127152 – Nguyễn Tuấn Anh
 
-- Xây dựng mã nguồn ban đầu cho ứng dụng API mẫu gồm 2 dịch vụ: Consumer App (React Frontend) và Provider Service (Express Backend quản lý sản phẩm) dựa trên mẫu của Pact Foundation.
+- Xây dựng mã nguồn ban đầu cho ứng dụng API mẫu gồm 2 dịch vụ: Consumer App (Frontend/Gateway đơn giản gọi API) và Provider Service (Backend API dịch vụ người dùng) sử dụng Node.js/Express.
 - Soạn tài liệu README hướng dẫn các bước cài đặt và khởi chạy dự án API mẫu trên môi trường local.
 
 ## AI Usage Declaration
