@@ -11,8 +11,8 @@
 ## 1. Giới thiệu chung & Phân tích cấu trúc hệ thống
 
 Dự án sử dụng công nghệ kiểm thử hợp đồng **Pact (Pact JS - V3)** để xác thực giao tiếp giữa hai dịch vụ:
-1. **Consumer (FrontendWebsite)**: Dịch vụ gọi API để lấy thông tin sản phẩm và hiển thị cho người dùng. Mã nguồn API client nằm tại [api.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/consumer/src/api.js) và bộ test contract nằm tại [api.pact.spec.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/consumer/src/api.pact.spec.js).
-2. **Provider (ProductService)**: Dịch vụ cung cấp dữ liệu sản phẩm qua các API REST. Mã nguồn routing nằm tại [product.routes.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/product/product.routes.js), xử lý nghiệp vụ tại [product.controller.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/product/product.controller.js) và cơ sở dữ liệu giả lập (mock repository) tại [product.repository.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/product/product.repository.js).
+1. **Consumer (FrontendWebsite)**: Dịch vụ gọi API để lấy thông tin sản phẩm và hiển thị cho người dùng. Mã nguồn API client nằm tại [api.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/consumer/src/api.js) và bộ test contract nằm tại [api.pact.spec.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/consumer/src/api.pact.spec.js).
+2. **Provider (ProductService)**: Dịch vụ cung cấp dữ liệu sản phẩm qua các API REST. Mã nguồn routing nằm tại [product.routes.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/product/product.routes.js), xử lý nghiệp vụ tại [product.controller.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/product/product.controller.js) và cơ sở dữ liệu giả lập (mock repository) tại [product.repository.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/product/product.repository.js).
 
 ---
 
@@ -20,7 +20,7 @@ Dự án sử dụng công nghệ kiểm thử hợp đồng **Pact (Pact JS - V
 
 Trong Pact, việc sử dụng các Matcher giúp hợp đồng linh hoạt hơn, tránh việc kiểm thử bị thất bại khi dữ liệu thực tế thay đổi giá trị cụ thể nhưng cấu trúc (schema) vẫn giữ nguyên (Postel's Law - Robustness Principle).
 
-Trong file [api.pact.spec.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/consumer/src/api.pact.spec.js), Consumer sử dụng hai Matcher cốt lõi từ `MatchersV3`:
+Trong file [api.pact.spec.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/consumer/src/api.pact.spec.js), Consumer sử dụng hai Matcher cốt lõi từ `MatchersV3`:
 
 ### 2.1. Matcher `like` (Type-based Matching)
 - **Cú pháp sử dụng:** `like(value)` (hoặc `somethingLike` trong phiên bản cũ).
@@ -168,7 +168,7 @@ Dưới đây là bảng tổng hợp tất cả các trường dữ liệu mà 
 | `GET /product/:id` | Response Body | `name` | String | `like` | `"28 Degrees"` | Có | Tên sản phẩm hiển thị |
 
 > **Nhận xét quan trọng về Schema (Robustness Principle):**
-> Trong mã nguồn Provider thực tế, class `Product` (tại [product.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/product/product.js)) có 4 trường thông tin: `id`, `type`, `name`, và `version` (ví dụ: `"v1"`, `"v2"`).
+> Trong mã nguồn Provider thực tế, class `Product` (tại [product.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/product/product.js)) có 4 trường thông tin: `id`, `type`, `name`, và `version` (ví dụ: `"v1"`, `"v2"`).
 > Tuy nhiên, trong Consumer Contract Design, Consumer chỉ khai báo 3 trường mong đợi là `id`, `type`, và `name`. Trường `version` được bỏ qua do Frontend không sử dụng.
 > Pact cho phép điều này: Provider được phép trả về dư thừa trường (`version`), và hợp đồng vẫn xác thực thành công. Điều này giúp giảm thiểu sự phụ thuộc chặt (tight coupling) giữa hai dịch vụ.
 
@@ -177,7 +177,7 @@ Dưới đây là bảng tổng hợp tất cả các trường dữ liệu mà 
 ## 5. Phân tích Cơ chế Xác thực và Request Filter
 
 ### 5.1. Cơ chế xác thực tại Provider (`auth.middleware.js`)
-Trong file [auth.middleware.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/middleware/auth.middleware.js), Provider triển khai cơ chế xác thực dựa trên thời gian:
+Trong file [auth.middleware.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/middleware/auth.middleware.js), Provider triển khai cơ chế xác thực dựa trên thời gian:
 1. Lấy token từ header `Authorization`, cắt bỏ tiền tố `"Bearer "`.
 2. Kiểm tra chuỗi còn lại dưới dạng timestamp.
 3. Tính toán khoảng cách chênh lệch thời gian giữa thời điểm hiện tại của máy chủ và timestamp trong token:
@@ -189,7 +189,7 @@ Trong file [auth.middleware.js](file:///d:/Project/Software_Testing_api_contract
 
 ### 5.2. Vấn đề của kiểm thử Contract tĩnh & Giải pháp `requestFilter`
 - **Vấn đề:** Các kịch bản kiểm thử Pact được viết cố định từ phía Consumer sử dụng giá trị mock tĩnh: `Bearer 2019-01-14T11:34:18.045Z`. Khi file hợp đồng JSON này được gửi đến Provider để xác thực vào bất kỳ thời điểm nào sau năm 2019, `auth.middleware.js` sẽ luôn trả về lỗi `401 Unauthorized` vì khoảng cách thời gian vượt xa giới hạn 1 giờ.
-- **Giải pháp:** Để giải quyết sự xung đột này mà không cần tắt xác thực của API, trong cấu hình kiểm thử xác thực phía Provider ([product.pact.test.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/product/product.pact.test.js)), đội ngũ phát triển đã cấu hình một bộ lọc yêu cầu (**`requestFilter`**):
+- **Giải pháp:** Để giải quyết sự xung đột này mà không cần tắt xác thực của API, trong cấu hình kiểm thử xác thực phía Provider ([product.pact.test.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/product/product.pact.test.js)), đội ngũ phát triển đã cấu hình một bộ lọc yêu cầu (**`requestFilter`**):
   ```javascript
   requestFilter: (req, res, next) => {
       if (!req.headers["authorization"]) {
@@ -205,7 +205,7 @@ Trong file [auth.middleware.js](file:///d:/Project/Software_Testing_api_contract
 ---
 
 ### 5.3. Phát hiện lỗi thiết kế bảo mật trong cấu hình chạy thực tế (`server.js`)
-Trong quá trình phân tích mã nguồn, chúng tôi phát hiện một sự khác biệt nghiêm trọng giữa cấu hình server chạy thật [server.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/server.js) và server chạy kiểm thử hợp đồng trong [product.pact.test.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/product/product.pact.test.js):
+Trong quá trình phân tích mã nguồn, chúng tôi phát hiện một sự khác biệt nghiêm trọng giữa cấu hình server chạy thật [server.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/server.js) và server chạy kiểm thử hợp đồng trong [product.pact.test.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/product/product.pact.test.js):
 
 - **Trong server test (`product.pact.test.js`):**
   ```javascript
@@ -225,4 +225,4 @@ Trong quá trình phân tích mã nguồn, chúng tôi phát hiện một sự k
   **Hệ quả:** Ở môi trường chạy thực tế, bất kỳ ai cũng có thể truy cập `/products` và `/product/:id` mà không cần cung cấp token xác thực hoặc cung cấp token sai, tạo ra lỗ hổng bảo mật nghiêm trọng.
 
 > [!WARNING]  
-> **Lỗ hổng bảo mật nghiêm trọng:** Dù kiểm thử hợp đồng Pact thành công (vì server test cấu hình đúng thứ tự), server ứng dụng thực tế chạy qua `server.js` đang bị bỏ qua hoàn toàn cơ chế xác thực. Nhóm phát triển cần điều chỉnh lại thứ tự đăng ký middleware trong [server.js](file:///d:/Project/Software_Testing_api_contract_testing/src/sample-api/pact-workshop-js/provider/server.js) tương tự như trong server test để khắc phục lỗ hổng này.
+> **Lỗ hổng bảo mật nghiêm trọng:** Dù kiểm thử hợp đồng Pact thành công (vì server test cấu hình đúng thứ tự), server ứng dụng thực tế chạy qua `server.js` đang bị bỏ qua hoàn toàn cơ chế xác thực. Nhóm phát triển cần điều chỉnh lại thứ tự đăng ký middleware trong [server.js](https://github.com/Anhnguyenk835/Software_Testing_api_contract_testing/blob/main/src/sample-api/pact-workshop-js/provider/server.js) tương tự như trong server test để khắc phục lỗ hổng này.
