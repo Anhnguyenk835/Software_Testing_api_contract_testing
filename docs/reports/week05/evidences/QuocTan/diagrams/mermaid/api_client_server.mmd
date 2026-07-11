@@ -1,0 +1,17 @@
+%% API Client-Server Communication Model
+%% File: api_client_server.mmd
+sequenceDiagram
+    participant C as Client<br/>(Browser/Mobile/CLI)
+    participant A as API Server<br/>(Application Layer)
+    participant D as Database<br/>(Data Layer)
+
+    C->>A: 1. HTTP Request<br/>(Method + URL + Headers + Body)
+    activate A
+    A->>D: 2. Query / Command
+    activate D
+    D-->>A: 3. Data / Result
+    deactivate D
+    A-->>C: 4. HTTP Response<br/>(Status Code + Headers + Body)
+    deactivate A
+
+    Note over C,D: Stateless: Mỗi request độc lập,<br/>server không lưu session

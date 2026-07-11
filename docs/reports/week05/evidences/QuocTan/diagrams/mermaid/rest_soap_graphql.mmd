@@ -1,0 +1,35 @@
+%% REST vs SOAP vs GraphQL Comparison
+%% File: rest_soap_graphql.mmd
+flowchart TB
+    subgraph REST["REST API"]
+        direction TB
+        R1["Protocol: HTTP/HTTPS"]
+        R2["Format: JSON, XML"]
+        R3["Style: Resource-based URLs"]
+        R4["Ví dụ: GET /users/42"]
+        R5["Ưu điểm: Đơn giản, phổ biến nhất"]
+    end
+
+    subgraph SOAP["SOAP API"]
+        direction TB
+        S1["Protocol: HTTP, SMTP, TCP"]
+        S2["Format: XML only"]
+        S3["Style: Operation-based (WSDL)"]
+        S4["Ví dụ: POST /service (XML envelope)"]
+        S5["Ưu điểm: WS-Security, ACID"]
+    end
+
+    subgraph GQL["GraphQL API"]
+        direction TB
+        G1["Protocol: HTTP/HTTPS"]
+        G2["Format: JSON"]
+        G3["Style: Query language"]
+        G4["Ví dụ: POST /graphql { query }"]
+        G5["Ưu điểm: Client chọn data cần lấy"]
+    end
+
+    REST ~~~ SOAP ~~~ GQL
+
+    style REST fill:#E8F5E9,stroke:#2E7D32
+    style SOAP fill:#FFF3E0,stroke:#E65100
+    style GQL fill:#F3E5F5,stroke:#6A1B9A

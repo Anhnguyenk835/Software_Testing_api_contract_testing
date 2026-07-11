@@ -1,0 +1,16 @@
+%% HTTP Response Structure
+%% File: http_response_structure.mmd
+block-beta
+    columns 1
+    block:response["HTTP Response"]
+        columns 1
+        A["Status Line: HTTP/1.1 200 OK"]
+        B["Headers: Content-Type, Content-Length, Cache-Control, ..."]
+        C["(Empty Line — Separator)"]
+        D["Body: JSON / XML / HTML (response data)"]
+    end
+
+    style A fill:#4CAF50,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#9E9E9E,color:#fff
+    style D fill:#FF9800,color:#fff

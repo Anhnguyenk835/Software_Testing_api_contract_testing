@@ -1,0 +1,22 @@
+%% mTLS (Mutual TLS) Authentication Flow
+%% File: mtls_flow.mmd
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+
+    C->>S: 1. ClientHello (TLS version, cipher suites)
+    S->>C: 2. ServerHello (chosen cipher suite)
+    S->>C: 3. Server Certificate
+    S->>C: 4. CertificateRequest (yêu cầu client cert)
+    S->>C: 5. ServerHelloDone
+
+    C->>S: 6. Client Certificate
+    C->>S: 7. ClientKeyExchange
+    C->>S: 8. CertificateVerify (chứng minh sở hữu private key)
+
+    Note over C,S: Cả hai bên đều đã xác thực lẫn nhau
+
+    C->>S: 9. Encrypted API Request
+    S->>C: 10. Encrypted API Response
+
+    Note over C,S: mTLS = Mutual TLS<br/>Cả client VÀ server<br/>đều cần certificate hợp lệ

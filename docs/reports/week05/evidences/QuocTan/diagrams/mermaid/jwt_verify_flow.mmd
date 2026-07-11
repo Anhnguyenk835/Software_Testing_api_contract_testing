@@ -1,0 +1,23 @@
+%% JWT Verification Flow
+%% File: jwt_verify_flow.mmd
+flowchart TD
+    Start([Client gửi Request với Authorization Header]) --> Split[1. Tách Token thành 3 phần: Header.Payload.Signature]
+    Split --> DecodeHeader["2. Decode Header → Lấy thuật toán alg <br/><i>(Cảnh báo: Xác thực cứng thuật toán mong muốn)</i>"]
+    DecodeHeader --> GetKey[3. Lấy Secret Key / Public Key tương ứng]
+    GetKey --> CalculateSig[4. Tính toán lại Signature từ Header + Payload + Key]
+    CalculateSig --> CheckSig{5. So sánh Signature tính được vs Signature trong Token}
+    
+    CheckSig -->|Không khớp| Reject401[Trả về 401 Unauthorized <br/> Signature Mismatch]
+    CheckSig -->|Khớp| CheckExp{6. Kiểm tra exp: Token hết hạn chưa?}
+    
+    CheckExp -->|Hết hạn| Reject401_Exp[Trả về 401 Unauthorized <br/> Token Expired]
+    CheckExp -->|Chưa hết hạn| CheckClaims{7. Kiểm tra Claims: iss, aud có đúng?}
+    
+    CheckClaims -->|Không đúng| Reject401_Claims[Trả về 401 Unauthorized <br/> Claims Invalid]
+    CheckClaims -->|Đúng| Success[8. Trích xuất sub, role, permissions <br/> Tiến hành Authorization]
+
+    style Start fill:#E6F5FF,stroke:#0066CC,stroke-width:2px
+    style Success fill:#C6EFCE,stroke:#006100,stroke-width:2px
+    style Reject401 fill:#FFC7CE,stroke:#9C0006,stroke-width:1px
+    style Reject401_Exp fill:#FFC7CE,stroke:#9C0006,stroke-width:1px
+    style Reject401_Claims fill:#FFC7CE,stroke:#9C0006,stroke-width:1px

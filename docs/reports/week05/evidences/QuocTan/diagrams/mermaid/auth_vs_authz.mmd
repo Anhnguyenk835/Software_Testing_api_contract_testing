@@ -1,0 +1,22 @@
+%% Authentication vs Authorization
+%% File: auth_vs_authz.mmd
+flowchart LR
+    subgraph AUTHN["Authentication (Xác thực)"]
+        direction TB
+        Q1["Bạn là AI?<br/>(Who are you?)"]
+        A1["Xác minh danh tính"]
+        M1["Username + Password<br/>Token / Certificate"]
+        E1["401 Unauthorized<br/>(nếu thất bại)"]
+        Q1 --> A1 --> M1 --> E1
+    end
+
+    subgraph AUTHZ["Authorization (Phân quyền)"]
+        direction TB
+        Q2["Bạn được phép làm gì?<br/>(What can you do?)"]
+        A2["Kiểm tra quyền hạn"]
+        M2["Role / Permission<br/>RBAC / ABAC"]
+        E2["403 Forbidden<br/>(nếu thất bại)"]
+        Q2 --> A2 --> M2 --> E2
+    end
+
+    AUTHN -->|"Xác thực trước"| AUTHZ

@@ -1,0 +1,57 @@
+%% HTTP Status Codes Overview
+%% File: http_status_codes_overview.mmd
+flowchart LR
+    subgraph S1["1xx Informational"]
+        direction TB
+        S100["100 Continue"]
+        S101["101 Switching Protocols"]
+        S102["102 Processing"]
+        S103["103 Early Hints"]
+    end
+
+    subgraph S2["2xx Success"]
+        direction TB
+        S200["200 OK"]
+        S201["201 Created"]
+        S202["202 Accepted"]
+        S204["204 No Content"]
+        S206["206 Partial Content"]
+    end
+
+    subgraph S3["3xx Redirection"]
+        direction TB
+        S301["301 Moved Permanently"]
+        S302["302 Found"]
+        S303["303 See Other"]
+        S304["304 Not Modified"]
+        S307["307 Temporary Redirect"]
+        S308["308 Permanent Redirect"]
+    end
+
+    subgraph S4["4xx Client Error"]
+        direction TB
+        S400["400 Bad Request"]
+        S401["401 Unauthorized"]
+        S403["403 Forbidden"]
+        S404["404 Not Found"]
+        S405["405 Method Not Allowed"]
+        S409["409 Conflict"]
+        S422["422 Unprocessable Entity"]
+        S429["429 Too Many Requests"]
+    end
+
+    subgraph S5["5xx Server Error"]
+        direction TB
+        S500["500 Internal Server Error"]
+        S501["501 Not Implemented"]
+        S502["502 Bad Gateway"]
+        S503["503 Service Unavailable"]
+        S504["504 Gateway Timeout"]
+    end
+
+    style S1 fill:#E3F2FD,stroke:#1565C0
+    style S2 fill:#E8F5E9,stroke:#2E7D32
+    style S3 fill:#FFF3E0,stroke:#E65100
+    style S4 fill:#FFEBEE,stroke:#C62828
+    style S5 fill:#F3E5F5,stroke:#6A1B9A
+

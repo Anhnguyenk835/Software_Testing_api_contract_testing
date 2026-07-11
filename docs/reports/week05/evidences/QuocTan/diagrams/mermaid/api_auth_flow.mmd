@@ -1,0 +1,19 @@
+%% API Authentication Flow Comparison
+%% File: api_auth_flow.mmd
+flowchart TB
+    subgraph NO_AUTH["API Không có Authentication"]
+        C1["Client"] -->|"GET /api/public/data"| S1["API Server"]
+        S1 -->|"200 OK + Data"| C1
+    end
+
+    subgraph WITH_AUTH["API Có Authentication"]
+        C2["Client"] -->|"1. POST /auth/login<br/>{username, password}"| S2["API Server"]
+        S2 -->|"2. 200 OK + {access_token}"| C2
+        C2 -->|"3. GET /api/orders<br/>Authorization: Bearer token"| S2
+        S2 --> V{"4. Verify<br/>Token"}
+        V -->|"Valid"| R1["200 OK + Data"]
+        V -->|"Invalid/Expired"| R2["401 Unauthorized"]
+        V -->|"No Permission"| R3["403 Forbidden"]
+    end
+
+    NO_AUTH ~~~ WITH_AUTH
