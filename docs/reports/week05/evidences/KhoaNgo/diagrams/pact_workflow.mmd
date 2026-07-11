@@ -1,0 +1,31 @@
+sequenceDiagram
+    autonumber
+    participant Consumer as Consumer (Client/CI)
+    participant Broker as Pact Broker
+    participant Provider as Provider (Backend/CI)
+    
+    rect rgb(230, 245, 255)
+        Note over Consumer: Bước 1: Phát triển & Chạy Test
+        Consumer->>Consumer: Khởi tạo Mock Provider cục bộ
+        Consumer->>Consumer: Gọi API client thật vào Mock
+        Consumer->>Consumer: Xác minh Client xử lý đúng response mock
+        Consumer->>Consumer: Tự động xuất ra file contract (pact JSON)
+    end
+    
+    rect rgb(235, 250, 235)
+        Note over Consumer, Broker: Bước 2: Đẩy Hợp Đồng
+        Consumer->>Broker: Publish file pact JSON kèm số phiên bản (version)
+    end
+    
+    rect rgb(255, 245, 230)
+        Note over Broker, Provider: Bước 3: Xác minh Hợp Đồng
+        Provider->>Broker: Tải file pact JSON của Consumer về
+        Provider->>Provider: Thiết lập State (trạng thái data ban đầu)
+        Provider->>Provider: Pact Verifier phát lại Request trong file Pact vào API thật
+        Provider->>Provider: So sánh Response thật với Response kỳ vọng trong file Pact
+    end
+    
+    rect rgb(250, 235, 250)
+        Note over Provider, Broker: Bước 4: Trả Kết Quả
+        Provider->>Broker: Gửi kết quả xác minh (Verification Results: Pass/Fail)
+    end
