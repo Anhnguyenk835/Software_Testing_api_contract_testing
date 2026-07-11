@@ -1,0 +1,32 @@
+%% JWT (JSON Web Token) Structure
+%% File: jwt_structure.mmd
+block-beta
+    columns 3
+
+    block:header["Header (JOSE)"]
+        columns 1
+        H1["alg: HS256 / RS256"]
+        H2["typ: JWT"]
+    end
+
+    block:payload["Payload (Claims)"]
+        columns 1
+        P1["sub: 42 (user ID)"]
+        P2["name: Nguyen Van A"]
+        P3["role: admin"]
+        P4["exp: 1720098000"]
+        P5["iat: 1720094400"]
+    end
+
+    block:signature["Signature"]
+        columns 1
+        S1["HMAC-SHA256("]
+        S2["  base64(header) +"]
+        S3["  base64(payload),"]
+        S4["  secret_key"]
+        S5[")"]
+    end
+
+    style header fill:#FF6B6B,color:#fff
+    style payload fill:#4ECDC4,color:#fff
+    style signature fill:#45B7D1,color:#fff

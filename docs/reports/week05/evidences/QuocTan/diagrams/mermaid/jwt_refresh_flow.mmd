@@ -1,0 +1,26 @@
+%% JWT Refresh Token Flow
+%% File: jwt_refresh_flow.mmd
+sequenceDiagram
+    autonumber
+    participant Client as Client
+    participant Server as API Server
+    participant DB as Database / Blacklist
+    
+    Note over Client, Server: 1. Đăng nhập hệ thống
+    Client->>Server: POST /auth/login
+    Server->>Client: Trả về {access_token (15m), refresh_token (30d)}
+    
+    Note over Client, Server: 2. Truy cập API thông thường
+    Client->>Server: GET /api/v1/profile (Authorization: Bearer access_token)
+    Server->>Client: 200 OK + Dữ liệu người dùng
+    
+    Note over Client, Server: 3. Access Token hết hạn
+    Client->>Server: GET /api/v1/profile (Authorization: Bearer access_token)
+    Server->>Client: 401 Unauthorized (Token Expired)
+    
+    Note over Client, Server: 4. Yêu cầu làm mới Access Token (Refresh Flow)
+    Client->>Server: POST /auth/refresh (gửi refresh_token)
+    Server->>DB: Kiểm tra refresh_token (blacklist/hết hạn?)
+    DB-->>Server: Hợp lệ
+    Server->>Server: Xóa refresh_token cũ & tạo bộ token MỚI (Rotation)
+    Server->>Client: Trả về {access_token_new (15m), refresh_token_new (30d)}

@@ -1,0 +1,20 @@
+%% OAuth 2.0 Authorization Code Flow
+%% File: oauth2_flow.mmd
+sequenceDiagram
+    participant U as User (Resource Owner)
+    participant C as Client App<br/>(Third-party)
+    participant A as Authorization Server<br/>(Google, GitHub...)
+    participant R as Resource Server<br/>(API)
+
+    U->>C: 1. Click "Đăng nhập bằng Google"
+    C->>A: 2. Redirect to /authorize<br/>(client_id, redirect_uri, scope)
+    A->>U: 3. Hiển thị màn hình consent<br/>"Cho phép App truy cập?"
+    U->>A: 4. User đồng ý (Grant)
+    A->>C: 5. Redirect về redirect_uri<br/>kèm authorization_code
+    C->>A: 6. POST /token<br/>(code, client_secret)
+    A->>C: 7. Trả về {access_token, refresh_token}
+    C->>R: 8. GET /api/user<br/>Authorization: Bearer access_token
+    R->>C: 9. 200 OK + User Data
+    C->>U: 10. Hiển thị thông tin user
+
+    Note over C,A: Client KHÔNG BAO GIỜ<br/>nhận được password của user

@@ -1,0 +1,16 @@
+%% HTTP Request Structure
+%% File: http_request_structure.mmd
+block-beta
+    columns 1
+    block:request["HTTP Request"]
+        columns 1
+        A["Request Line: METHOD /path HTTP/1.1"]
+        B["Headers: Content-Type, Authorization, Accept, ..."]
+        C["(Empty Line — Separator)"]
+        D["Body: JSON / XML / Form Data (optional)"]
+    end
+
+    style A fill:#4CAF50,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#9E9E9E,color:#fff
+    style D fill:#FF9800,color:#fff
