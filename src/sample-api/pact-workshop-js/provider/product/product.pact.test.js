@@ -1,13 +1,10 @@
 const { Verifier } = require('@pact-foundation/pact');
 const controller = require('./product.controller');
 const Product = require('./product');
+const { createApp } = require('../server');
 
 // Setup provider server to verify
-const app = require('express')();
-const authMiddleware = require('../middleware/auth.middleware');
-app.use(authMiddleware);
-app.use(require('./product.routes'));
-const server = app.listen("8080");
+const server = createApp().listen("8080");
 
 describe("Pact Verification", () => {
     it("validates the expectations of ProductService", () => {
