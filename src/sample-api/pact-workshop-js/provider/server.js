@@ -1,14 +1,24 @@
-const app = require('express')();
+const express = require('express');
 const cors = require('cors');
 const routes = require('./product/product.routes');
 const authMiddleware = require('./middleware/auth.middleware');
 const port = 8080;
 
-const init = () => {
+const createApp = () => {
+    const app = express();
     app.use(cors());
-    app.use(routes);
+    app.use(express.json());
     app.use(authMiddleware);
-    return app.listen(port, () => console.log(`Provider API listening on port ${port}...`));
+    app.use(routes);
+    return app;
 };
 
-init();
+const init = () => {
+    return createApp().listen(port, () => console.log(`Provider API listening on port ${port}...`));
+};
+
+if (require.main === module) {
+    init();
+}
+
+module.exports = { createApp, init };

@@ -44,14 +44,72 @@ npm install
 npm start         # http://localhost:3000, gọi API qua REACT_APP_API_BASE_URL (consumer/.env)
 ```
 
+## Auth (Provider Service)
+
+**toàn bộ** endpoint của Provider đều yêu cầu header:
+
+    Authorization: Bearer <timestamp ISO-8601, vd: 2026-07-15T10:00:00.000Z>
+
+Timestamp phải nằm trong vòng 1 giờ so với đồng hồ server. Thiếu header hoặc
+token sai định dạng/hết hạn → `401 Unauthorized`, body `{"error":"Unauthorized"}`.
+
+
+## Danh sách Endpoint (Provider)
+
+| Method | Path | Auth | Thành công | Lỗi |
+| :--- | :--- | :---: | :--- | :--- |
+| GET | `/products` | Có | `200` + mảng sản phẩm | `401` |
+| GET | `/product/:id` | Có | `200` + sản phẩm | `401`, `404` |
+| POST | `/products` | Có | `201` + sản phẩm vừa tạo | `400` (thiếu `type`/`name`), `401` |
+| PUT | `/product/:id` | Có | `200` + sản phẩm đã cập nhật | `401`, `404` |
+| DELETE | `/product/:id` | Có | `204` (không có body) | `401`, `404` |
+
+Cấu trúc một sản phẩm (`Product`):
+
+```json
+{ "id": "10", "type": "CREDIT_CARD", "name": "28 Degrees", "version": "v1" }
+```
+
+## Mã trạng thái (Status code)
+
+| Mã | Ý nghĩa | Khi nào |
+| :--- | :--- | :--- |
+| 200 | OK | `GET`/`PUT` thành công |
+| 201 | Created | `POST /products` thành công, trả về sản phẩm vừa tạo |
+| 204 | No Content | `DELETE /product/:id` thành công, không có body |
+| 400 | Bad Request | Body của `POST`/`PUT` thiếu `type`/`name` |
+| 401 | Unauthorized | Thiếu header `Authorization` hoặc Bearer timestamp không hợp lệ/hết hạn (kiểm tra trước khi vào route handler) |
+| 404 | Not Found | `GET`/`PUT`/`DELETE` với `:id` không tồn tại |
+
 ## Kiểm tra nhanh Provider bằng curl
 
 ```bash
-curl http://localhost:8080/products
-curl http://localhost:8080/product/10
+# GET danh sách sản phẩm
+curl http://localhost:8080/products \
+  -H "Authorization: Bearer 2026-07-15T10:00:00.000Z"
+
+# GET 1 sản phẩm theo id
+curl http://localhost:8080/product/10 \
+  -H "Authorization: Bearer 2026-07-15T10:00:00.000Z"
+
+# POST tạo sản phẩm mới
+curl -X POST http://localhost:8080/products \
+  -H "Authorization: Bearer 2026-07-15T10:00:00.000Z" \
+  -H "Content-Type: application/json" \
+  -d '{"type":"CREDIT_CARD","name":"New Card","version":"v1"}'
+
+# PUT cập nhật sản phẩm
+curl -X PUT http://localhost:8080/product/10 \
+  -H "Authorization: Bearer 2026-07-15T10:00:00.000Z" \
+  -H "Content-Type: application/json" \
+  -d '{"type":"CREDIT_CARD","name":"Updated Name","version":"v2"}'
+
+# DELETE xoá sản phẩm
+curl -X DELETE http://localhost:8080/product/10 \
+  -H "Authorization: Bearer 2026-07-15T10:00:00.000Z"
 ```
 
-Kết quả mẫu:
+Kết quả mẫu (`GET /products`):
 
 ```json
 [{"id":"09","type":"CREDIT_CARD","name":"Gem Visa","version":"v1"},
@@ -59,13 +117,28 @@ Kết quả mẫu:
  {"id":"11","type":"PERSONAL_LOAN","name":"MyFlexiPay","version":"v2"}]
 ```
 
+Kết quả mẫu khi lỗi:
+
+```json
+// 401 - thiếu hoặc sai Authorization
+{ "error": "Unauthorized" }
+
+// 400 - POST/PUT thiếu type hoặc name
+{ "message": "type and name are required" }
+
+// 404 - :id không tồn tại
+{ "message": "Product not found" }
+```
+
 ## Lưu ý làm rõ
 
 Repo gốc là một workshop nhiều bước nên còn kèm theo:
+- `provider/test/` — test đơn vị (unit test) cho `server.js`, `product.controller.js`, `product.repository.js` (thêm ở tuần 06, 20 test).
 - `consumer/src/api.spec.js`, `consumer/src/api.pact.spec.js`, `provider/product/product.pact.test.js` — test đơn vị & Pact test mẫu.
-- `provider/middleware/auth.middleware.js` — middleware kiểm tra Bearer token mẫu.
-- `docker-compose.yaml` — Postgres + Pact Broker, dùng khi demo publish/verify contract qua broker.
+- `provider/middleware/auth.middleware.js` — middleware kiểm tra Bearer token; từ tuần 06 đã gắn **trước** routes nên áp dụng cho toàn bộ endpoint (xem mục Auth ở trên).
+- `provider/Dockerfile` và service `provider` trong `docker-compose.yaml` — build/chạy Provider bằng Docker, dùng chung với Postgres + Pact Broker khi demo publish/verify contract qua broker.
 
 Các phần này sẽ được nhóm khai thác dần ở các tuần Contract Testing với Pact
-(`src/pact/`) và khi triển khai Auth JWT — không cần đụng tới để chỉ chạy API mẫu.
+(`src/pact/`) và khi triển khai Auth JWT ở các tuần sau — không cần đụng tới
+để chỉ chạy API mẫu.
 
