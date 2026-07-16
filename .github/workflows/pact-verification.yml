@@ -1,0 +1,89 @@
+name: Pact contract verification
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pact-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  consumer-pact:
+    name: Consumer Pact tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: src/sample-api/pact-workshop-js/consumer/package-lock.json
+
+      - name: Install consumer dependencies
+        working-directory: src/sample-api/pact-workshop-js/consumer
+        run: npm ci
+
+      - name: Generate and test consumer Pact
+        working-directory: src/sample-api/pact-workshop-js/consumer
+        run: npm run test:pact
+
+      - name: Upload generated Pact
+        uses: actions/upload-artifact@v4
+        with:
+          name: consumer-pacts
+          path: src/sample-api/pact-workshop-js/consumer/pacts/*.json
+          if-no-files-found: error
+          retention-days: 7
+
+  provider-verification:
+    name: Provider Pact verification
+    needs: consumer-pact
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: src/sample-api/pact-workshop-js/provider/package-lock.json
+
+      - name: Install provider dependencies
+        working-directory: src/sample-api/pact-workshop-js/provider
+        run: npm ci
+
+      - name: Download consumer Pact
+        uses: actions/download-artifact@v4
+        with:
+          name: consumer-pacts
+          path: src/sample-api/pact-workshop-js/consumer/pacts
+
+      - name: Verify Pact against provider
+        working-directory: src/sample-api/pact-workshop-js/provider
+        env:
+          CI: true
+          PACT_FILE: ${{ github.workspace }}/src/sample-api/pact-workshop-js/consumer/pacts/FrontendWebsite-ProductService.json
+          GIT_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+          GIT_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: npm run test:pact

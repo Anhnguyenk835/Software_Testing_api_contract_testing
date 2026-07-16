@@ -28,6 +28,25 @@ src/sample-api/pact-workshop-js/consumer/pacts/FrontendWebsite-ProductService.js
 Provider verification có thể đọc trực tiếp file trên hoặc publish file này lên
 Pact Broker.
 
+## CI với GitHub Actions
+
+Workflow `.github/workflows/pact-verification.yml` tự động chạy khi:
+
+- Có commit mới được push lên nhánh `main`.
+- Có Pull Request được mở, cập nhật hoặc mở lại với nhánh đích là `main`.
+
+Pipeline tách thành hai job nối tiếp nhau:
+
+1. `consumer-pact` cài dependencies, chạy consumer Pact tests và upload Pact
+   JSON dưới dạng workflow artifact.
+2. `provider-verification` tải đúng artifact vừa sinh và xác minh toàn bộ
+   interaction với Provider thật.
+
+Luồng CI này không cần secret và do đó cũng chạy được cho Pull Request từ fork.
+Nếu dùng Pact Broker, provider test vẫn hỗ trợ các biến môi trường
+`PACT_BROKER_URL`, `PACT_BROKER_USERNAME`, `PACT_BROKER_PASSWORD` hoặc
+`PACT_BROKER_TOKEN`; chỉ publish kết quả khi đặt `PACT_PUBLISH_RESULTS=true`.
+
 ## Luồng demo
 
 1. Chạy consumer test để sinh pact JSON.

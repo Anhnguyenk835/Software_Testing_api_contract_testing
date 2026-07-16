@@ -1,4 +1,5 @@
 const { Verifier } = require('@pact-foundation/pact');
+const path = require('path');
 const controller = require('./product.controller');
 const Product = require('./product');
 const { createApp } = require('../server');
@@ -12,14 +13,8 @@ describe("Pact Verification", () => {
             logLevel: "INFO",
             providerBaseUrl: "http://127.0.0.1:8080",
             provider: "ProductService",
-            providerVersion: "1.0.0",
-            providerVersionBranch: "test",
-            consumerVersionSelectors: [{
-                latest: true
-              }],
-            pactBrokerUrl: process.env.PACT_BROKER_URL || "http://127.0.0.1:8000",
-            pactBrokerUsername: process.env.PACT_BROKER_USERNAME || "pact_workshop",
-            pactBrokerPassword: process.env.PACT_BROKER_PASSWORD || "pact_workshop",
+            providerVersion: process.env.GIT_COMMIT || "local",
+            providerVersionBranch: process.env.GIT_BRANCH || "local",
             stateHandlers: {
                 "product with ID 10 exists": () => {
                     controller.repository.products = new Map([
@@ -35,7 +30,13 @@ describe("Pact Verification", () => {
                 "no products exist": () => {
                     controller.repository.products = new Map();
                 },
-                "product with ID 11 does not exist": () => {
+                "product with ID 99 does not exist": () => {
+                    controller.repository.products = new Map();
+                },
+                "a product can be created": () => {
+                    controller.repository.products = new Map();
+                },
+                "product validation is enabled": () => {
                     controller.repository.products = new Map();
                 },
             },
@@ -49,10 +50,22 @@ describe("Pact Verification", () => {
             },
         };
 
-        if (process.env.CI || process.env.PACT_PUBLISH_RESULTS) {
+        if (process.env.PACT_BROKER_URL) {
             Object.assign(opts, {
-                publishVerificationResult: true,
+                pactBrokerUrl: process.env.PACT_BROKER_URL,
+                pactBrokerUsername: process.env.PACT_BROKER_USERNAME,
+                pactBrokerPassword: process.env.PACT_BROKER_PASSWORD,
+                pactBrokerToken: process.env.PACT_BROKER_TOKEN,
+                consumerVersionSelectors: [{ latest: true }],
+                publishVerificationResult: process.env.PACT_PUBLISH_RESULTS === "true",
             });
+        } else {
+            opts.pactUrls = [
+                path.resolve(
+                    process.env.PACT_FILE ||
+                    "../consumer/pacts/FrontendWebsite-ProductService.json"
+                ),
+            ];
         }
 
         return new Verifier(opts).verifyProvider().then(output => {
