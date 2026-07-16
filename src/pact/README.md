@@ -1,23 +1,38 @@
 # Contract Testing với Pact
 
-> Placeholder — bổ sung tuần sau.
+Demo contract testing theo mô hình **consumer-driven** với Pact-JS nằm trong
+`src/sample-api/pact-workshop-js`.
 
-Demo contract testing theo mô hình **consumer-driven** với Pact-JS.
+## Consumer contract
 
-## Cấu trúc dự kiến
+Chạy consumer tests từ repository root:
 
+```bash
+npm run test:pact --prefix src/sample-api/pact-workshop-js/consumer
 ```
-pact/
-├── consumer/     # test phía consumer → sinh pact file
-├── provider/     # verify pact phía provider
-└── pacts/        # pact file sinh ra (ignore trong git)
+
+Test suite tạo contract cho các endpoint:
+
+- `GET /products`
+- `GET /product/:id`
+- `POST /products`
+- `PUT /product/:id`
+- `DELETE /product/:id`
+
+Pact JSON được ghi tại:
+
+```text
+src/sample-api/pact-workshop-js/consumer/pacts/FrontendWebsite-ProductService.json
 ```
+
+Provider verification có thể đọc trực tiếp file trên hoặc publish file này lên
+Pact Broker.
 
 ## Luồng demo
 
-1. Chạy consumer test → sinh `pacts/*.json`.
-2. Provider chạy verification trên pact đó.
-3. Sửa provider gây breaking change → verification fail (minh họa giá trị của contract testing).
+1. Chạy consumer test để sinh pact JSON.
+2. Provider verify các interaction trong pact.
+3. Publish pact lên broker khi cần chạy quy trình CI/CD.
 
 Xem lý thuyết tại [`contracting_testing.md`](../../docs/reports/week04/evidences/contracting_testing.md)
 và ghi chú công cụ tại [`tool_research.md`](../../docs/reports/week04/evidences/tool_research.md).
