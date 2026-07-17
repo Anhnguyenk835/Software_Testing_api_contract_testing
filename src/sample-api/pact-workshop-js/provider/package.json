@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "jest",
-    "test:pact": "jest --testTimeout 30000 --testMatch \"**/*.pact.test.js\""
+    "test:pact": "jest --testTimeout 30000 --testMatch \"**/*.pact.test.js\"",
+    "publish:pact": "node publish-pact.js"
   },
   "dependencies": {
     "cors": "2.8.5",

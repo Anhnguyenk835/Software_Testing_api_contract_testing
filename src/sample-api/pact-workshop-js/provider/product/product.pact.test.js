@@ -51,14 +51,18 @@ describe("Pact Verification", () => {
         };
 
         if (process.env.PACT_BROKER_URL) {
-            Object.assign(opts, {
+            const brokerOpts = {
                 pactBrokerUrl: process.env.PACT_BROKER_URL,
-                pactBrokerUsername: process.env.PACT_BROKER_USERNAME,
-                pactBrokerPassword: process.env.PACT_BROKER_PASSWORD,
-                pactBrokerToken: process.env.PACT_BROKER_TOKEN,
                 consumerVersionSelectors: [{ latest: true }],
                 publishVerificationResult: process.env.PACT_PUBLISH_RESULTS === "true",
-            });
+            };
+            if (process.env.PACT_BROKER_TOKEN) {
+                brokerOpts.pactBrokerToken = process.env.PACT_BROKER_TOKEN;
+            } else if (process.env.PACT_BROKER_USERNAME) {
+                brokerOpts.pactBrokerUsername = process.env.PACT_BROKER_USERNAME;
+                brokerOpts.pactBrokerPassword = process.env.PACT_BROKER_PASSWORD;
+            }
+            Object.assign(opts, brokerOpts);
         } else {
             opts.pactUrls = [
                 path.resolve(
