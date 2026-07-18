@@ -1,0 +1,76 @@
+[
+  {
+    "tc_id": "POST_01",
+    "description": "Happy path — body hợp lệ đầy đủ (type, name, version)",
+    "auth_header": "{{validToken}}",
+    "body_type": "CREDIT_CARD",
+    "body_name": "SEBros Test Card",
+    "body_version": "v1",
+    "expected_status": 201,
+    "expect_has_id": true,
+    "expect_field_type": "CREDIT_CARD",
+    "expect_field_name": "SEBros Test Card"
+  },
+  {
+    "tc_id": "POST_02",
+    "description": "Happy path — body hợp lệ thiếu version (optional field)",
+    "auth_header": "{{validToken}}",
+    "body_type": "PERSONAL_LOAN",
+    "body_name": "Quick Loan",
+    "body_version": "",
+    "expected_status": 201,
+    "expect_has_id": true,
+    "expect_field_type": "PERSONAL_LOAN",
+    "expect_field_name": "Quick Loan"
+  },
+  {
+    "tc_id": "POST_03",
+    "description": "Missing field — thiếu type (required)",
+    "auth_header": "{{validToken}}",
+    "body_type": "",
+    "body_name": "No Type Card",
+    "body_version": "v1",
+    "expected_status": 400,
+    "expect_message": "type and name are required"
+  },
+  {
+    "tc_id": "POST_04",
+    "description": "Missing field — thiếu name (required)",
+    "auth_header": "{{validToken}}",
+    "body_type": "CREDIT_CARD",
+    "body_name": "",
+    "body_version": "v1",
+    "expected_status": 400,
+    "expect_message": "type and name are required"
+  },
+  {
+    "tc_id": "POST_05",
+    "description": "Missing field — body rỗng {}",
+    "auth_header": "{{validToken}}",
+    "body_type": "",
+    "body_name": "",
+    "body_version": "",
+    "expected_status": 400,
+    "expect_message": "type and name are required"
+  },
+  {
+    "tc_id": "POST_06",
+    "description": "Auth fail — không có header Authorization",
+    "auth_header": "",
+    "body_type": "CREDIT_CARD",
+    "body_name": "Unauthorized Card",
+    "body_version": "",
+    "expected_status": 401,
+    "expect_error_field": "error"
+  },
+  {
+    "tc_id": "POST_07",
+    "description": "Auth fail — Bearer timestamp đã hết hạn",
+    "auth_header": "Bearer 2020-01-01T00:00:00.000Z",
+    "body_type": "CREDIT_CARD",
+    "body_name": "Expired Token Card",
+    "body_version": "",
+    "expected_status": 401,
+    "expect_error_field": "error"
+  }
+]

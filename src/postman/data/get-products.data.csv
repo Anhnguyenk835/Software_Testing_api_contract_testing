@@ -1,0 +1,5 @@
+tc_id,description,auth_header,expected_status,expect_array,expect_min_length,expect_error_field
+GET_PRODUCTS_01,Happy path — token hợp lệ,{{validToken}},200,true,1,
+GET_PRODUCTS_02,Auth fail — không có Authorization,,401,false,,error
+GET_PRODUCTS_03,Auth fail — token sai định dạng,Bearer INVALID_TOKEN_STRING,401,false,,error
+GET_PRODUCTS_04,Auth fail — Bearer timestamp hết hạn,Bearer 2020-01-01T00:00:00.000Z,401,false,,error

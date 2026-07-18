@@ -1,0 +1,42 @@
+[
+  {
+    "tc_id": "DELETE_01",
+    "description": "Happy path — xóa id=11 (MyFlexiPay) tồn tại",
+    "product_id": "11",
+    "auth_header": "{{validToken}}",
+    "expected_status": 204,
+    "expect_empty_body": true
+  },
+  {
+    "tc_id": "DELETE_02",
+    "description": "Not found — xóa id=99 không tồn tại",
+    "product_id": "99",
+    "auth_header": "{{validToken}}",
+    "expected_status": 404,
+    "expect_message": "Product not found"
+  },
+  {
+    "tc_id": "DELETE_03",
+    "description": "Not found — xóa id=abc (không hợp lệ)",
+    "product_id": "abc",
+    "auth_header": "{{validToken}}",
+    "expected_status": 404,
+    "expect_message": "Product not found"
+  },
+  {
+    "tc_id": "DELETE_04",
+    "description": "Auth fail — không có header Authorization",
+    "product_id": "10",
+    "auth_header": "",
+    "expected_status": 401,
+    "expect_error_field": "error"
+  },
+  {
+    "tc_id": "DELETE_05",
+    "description": "Auth fail — Bearer timestamp đã hết hạn",
+    "product_id": "10",
+    "auth_header": "Bearer 2020-01-01T00:00:00.000Z",
+    "expected_status": 401,
+    "expect_error_field": "error"
+  }
+]

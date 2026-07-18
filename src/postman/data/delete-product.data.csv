@@ -1,0 +1,6 @@
+tc_id,description,product_id,auth_header,expected_status,expect_empty_body,expect_message,expect_error_field
+DELETE_01,Happy path id=11,11,{{validToken}},204,true,,
+DELETE_02,Not found id=99,99,{{validToken}},404,,Product not found,
+DELETE_03,Not found id=abc,abc,{{validToken}},404,,Product not found,
+DELETE_04,Auth fail no token,10,,401,,,error
+DELETE_05,Auth fail expired,10,Bearer 2020-01-01T00:00:00.000Z,401,,,error
