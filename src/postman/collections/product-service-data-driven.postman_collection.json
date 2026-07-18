@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "sebros-product-api-collection",
+    "_postman_id": "c3c4d5e6-1234-4b5c-8d9e-1f2a3b4c5d6e",
     "name": "Product Service - Data Driven Tests",
     "description": "Collection data-driven testing cho Product Provider API.\nNhóm 3 — SEBros | Tuần W06 | API & Contract Testing Seminar\n\nCấu trúc folder:\n- _Setup: Smoke test kiểm tra server đang chạy\n- GET — Happy Path / Negative\n- POST — Happy Path / Negative\n- PUT — Happy Path / Negative\n- DELETE — Happy Path / Negative\n\nCách chạy:\n1. Import collection và environment local.postman_environment.json\n2. Khởi động Provider: cd src/sample-api/pact-workshop-js && npm start\n3. Mở Collection Runner → chọn folder → load data file tương ứng → Run",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
