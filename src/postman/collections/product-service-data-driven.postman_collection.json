@@ -133,7 +133,7 @@
       "description": "Data file: get-products.data.json (row GET_PRODUCTS_01) và get-product-by-id.data.json (rows GET_BY_ID_01 đến GET_BY_ID_03).\nChạy folder này để kiểm tra business logic khi auth token hợp lệ và resource tồn tại.",
       "item": [
         {
-          "name": "GET /products [list all — happy]",
+          "name": "GET /products [list all]",
           "event": [
             {
               "listen": "prerequest",
@@ -215,7 +215,7 @@
           }
         },
         {
-          "name": "GET /product/:id [by id — happy]",
+          "name": "GET /product/:id [by id]",
           "event": [
             {
               "listen": "prerequest",
@@ -322,7 +322,7 @@
       "description": "Data file: get-products.data.json (rows GET_PRODUCTS_02–04) và get-product-by-id.data.json (rows GET_BY_ID_04–07).\nKiểm tra 401 Unauthorized và 404 Not Found.",
       "item": [
         {
-          "name": "GET /products [auth fail — negative]",
+          "name": "GET /products [auth fail]",
           "event": [
             {
               "listen": "prerequest",
@@ -379,7 +379,7 @@
           }
         },
         {
-          "name": "GET /product/:id [not found / auth fail — negative]",
+          "name": "GET /product/:id [not found / auth fail]",
           "event": [
             {
               "listen": "prerequest",
@@ -449,7 +449,7 @@
       "description": "Data file: post-products.data.json (rows POST_01–02).\nKiểm tra 201 Created với resource trả về có id, type, name.",
       "item": [
         {
-          "name": "POST /products [create — happy]",
+          "name": "POST /products [create]",
           "event": [
             {
               "listen": "prerequest",
@@ -570,7 +570,7 @@
       "description": "Data file: post-products.data.json (rows POST_03–07).\nKiểm tra 400 Bad Request (thiếu field) và 401 Unauthorized (auth fail).",
       "item": [
         {
-          "name": "POST /products [missing field / auth fail — negative]",
+          "name": "POST /products [missing field / auth fail]",
           "event": [
             {
               "listen": "prerequest",
@@ -660,7 +660,7 @@
       "description": "Data file: put-product.data.json (rows PUT_01–02).\nKiểm tra 200 OK với product đã được cập nhật.",
       "item": [
         {
-          "name": "PUT /product/:id [update — happy]",
+          "name": "PUT /product/:id [update]",
           "event": [
             {
               "listen": "prerequest",
@@ -782,7 +782,7 @@
       "description": "Data file: put-product.data.json (rows PUT_03–06).\nKiểm tra 404 Not Found và 401 Unauthorized.",
       "item": [
         {
-          "name": "PUT /product/:id [not found / auth fail — negative]",
+          "name": "PUT /product/:id [not found / auth fail]",
           "event": [
             {
               "listen": "prerequest",
@@ -876,7 +876,7 @@
       "description": "Data file: delete-product.data.json (row DELETE_01).\nKiểm tra 204 No Content.\n\nLƯU Ý: Chạy cuối cùng — DELETE_01 xóa id=11 (MyFlexiPay) khỏi in-memory store.\nSau khi chạy xong, restart Provider để reset về seed data nếu cần chạy lại.",
       "item": [
         {
-          "name": "DELETE /product/:id [remove — happy]",
+          "name": "DELETE /product/:id [remove]",
           "event": [
             {
               "listen": "prerequest",
@@ -958,7 +958,7 @@
       "description": "Data file: delete-product.data.json (rows DELETE_02–05).\nKiểm tra 404 Not Found và 401 Unauthorized.",
       "item": [
         {
-          "name": "DELETE /product/:id [not found / auth fail — negative]",
+          "name": "DELETE /product/:id [not found / auth fail]",
           "event": [
             {
               "listen": "prerequest",
