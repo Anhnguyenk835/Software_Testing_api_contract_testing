@@ -16,12 +16,16 @@
 - Viết test script động trên Postman để map từng dòng data vào path, header và body; assert status code (và field phản hồi chính) theo từng iteration khi chạy Collection Runner.
 - Gắn data-driven vào đúng folder collection dùng chung của nhóm (theo method và happy/negative); soạn ghi chú ngắn cách tổ chức nhiều test case đa method cho nội dung demo/seminar.
 
+Evidence: [Output documents](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=drive_link)
+
 ### 23127065 – Ngô Nguyễn Thế Khoa
 
 - Viết/hoàn thiện Pact Consumer interactions cho các API **đọc**: `GET /products`, `GET /product/:id` (payload, status, header `Authorization` với matcher phù hợp).
 - Viết Pact Consumer interactions cho API **tạo**: `POST /products` (request body, response `201`/body sản phẩm, case lỗi validation hoặc `401` nếu nằm trong design).
 - Viết Pact Consumer interactions cho API **cập nhật và xóa**: `PUT /product/:id`, `DELETE /product/:id` (status và body/header kỳ vọng theo contract đã thống nhất).
 - Chạy consumer tests thành công, xuất file pact JSON; ghi lệnh chạy test và đường dẫn file pact để phía provider verification sử dụng.
+
+Evidence: [Output documents](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=drive_link)
 
 ### 23127211 – Nguyễn Lê Hồ Anh Khoa
 
@@ -30,12 +34,16 @@
 - Viết Test scripts assert status và field body cốt lõi cho happy path của `GET`, `POST`, `PUT`, `DELETE` (ví dụ `id`, `name`, `type` hoặc confirmation xóa tùy response API).
 - Soạn file `.http` (VS Code REST Client) cover đủ bốn method với ít nhất các case chính: thành công, `401`, `404` (và `400` cho `POST`/`PUT` nếu API trả về).
 
+Evidence: [Output documents](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=drive_link)
+
 ### 23127148 – Ân Tiến Nguyên An
 
 - Cấu hình Pact Provider Verification trên Product Service để verify toàn bộ interactions trong file pact (đủ `GET`, `POST`, `PUT`, `DELETE`), không chỉ các case đọc.
 - Thiết lập provider states phục vụ cả kịch bản đọc và ghi (ví dụ: products exist, no products, product by id tồn tại/không tồn tại, state sau khi tạo/cập nhật/xóa) khớp tên state với phía consumer.
 - Chạy provider verification pass với Provider local sau khi có file pact từ consumer; xử lý lệch contract (nếu có) phối hợp Thế Khoa / Tuấn Anh để chốt một bản ổn định.
 - Publish pact lên Pactflow Broker (W05); lưu hướng dẫn CLI/script (không commit secret) và minh chứng pact đa method hiển thị trên broker UI; Broker local Docker chỉ optional lab.
+
+Evidence: [Output documents](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=drive_link)
 
 ### 23127152 – Nguyễn Tuấn Anh
 
@@ -46,7 +54,19 @@
 - Cập nhật tài liệu endpoints (README hoặc file ngắn): method, path, header auth, ví dụ request/response và bảng status code — làm nguồn freeze cho Postman và Pact trong tuần; giữ cơ chế auth hiện tại của API mẫu (Bearer timestamp ISO-8601), không đổi JWT/Login giữa tuần.
 - Hoàn thiện Docker Compose (Pact Broker local và Provider nếu kịp), ghi lệnh khởi chạy + smoke test nhanh cho đủ method chính để cả nhóm kiểm tra local.
 
+Evidence: [Output documents](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=drive_link)
+
 ## AI Usage Declaration
+
+- Các thành viên nhóm đã sử dụng các công cụ AI (Gemini, Claude, ChatGPT,...) để hỗ trợ nghiên cứu tài liệu, thiết kế kịch bản kiểm thử và soạn thảo nội dung báo cáo.
+
+| Thành viên                              | Công cụ AI                                    | Thời gian truy cập    | Mục đích sử dụng                                                                                                                                                           | Minh chứng                                                                                              |
+| :-------------------------------------- | :-------------------------------------------- | :-------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| **Mạch Quốc Tấn**<br>(23127115)         | Gemini 3.5 Flash                              | 2026-07-18            | Hỗ trợ chuẩn bị bộ dữ liệu data-driven, viết test script động trên Postman, mapping data-driven, và soạn hướng dẫn.                                                        | [AI Audit Report](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=sharing) |
+| **Ngô Nguyễn Thế Khoa**<br>(23127065)   | Gemini 3.5 Flash                              | 2026-07-18            | Hỗ trợ viết/hoàn thiện Pact Consumer interactions cho các API đọc/tạo/cập nhật/xóa sản phẩm và viết tài liệu.                                                              | [AI Audit Report](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=sharing) |
+| **Nguyễn Lê Hồ Anh Khoa**<br>(23127211) | Gemini 3.5 Flash                              | 2026-07-18            | Hỗ trợ chuẩn hóa Postman Collection, cấu hình Environment Variables, viết Pre-request scripts và Test scripts cho API Chaining, viết file `.http` thử nghiệm.            | [AI Audit Report](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=sharing) |
+| **Ân Tiến Nguyên An**<br>(23127148)     | Gemini 3.5 Flash                              | 2026-07-18            | Hỗ trợ cấu hình Pact Provider Verification, thiết lập provider states cho API đọc/ghi, giải quyết lệch contract và publish kết quả lên Pactflow Broker.                     | [AI Audit Report](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=sharing) |
+| **Nguyễn Tuấn Anh**<br>(23127152)       | Gemini 3.5 Flash                              | 2026-07-18            | Hỗ trợ sửa middleware auth của Provider, thiết lập router-auth, phát triển API POST/PUT/DELETE trên backend, tài liệu hóa endpoint, và cấu hình Docker Compose.             | [AI Audit Report](https://drive.google.com/drive/folders/YOUR_DRIVE_FOLDER_ID?usp=sharing) |
 
 ## Tasks Planned for Next Week
 
