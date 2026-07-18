@@ -1,0 +1,783 @@
+{
+  "info": {
+    "_postman_id": "a7c1e900-0002-4b20-8e10-9c1d2e3f4a5b",
+    "name": "Product Service - API Tests",
+    "description": "Bo test API cho Product Service (pact-workshop-js/provider).\n\nCau truc: folder theo HTTP Method (GET/POST/PUT/DELETE), moi method chia 3 nhom kich ban: Happy Path, Negative, Auth Fail.\n\nAuth: middleware yeu cau header `Authorization: Bearer <ISO8601 timestamp>` voi timestamp nam trong vong 1 gio va KHONG o tuong lai. Token duoc sinh tu dong o Pre-request script cap Collection va ke thua xuong moi request.\n\nChaining: POST /products luu `createdProductId` -> PUT va DELETE Happy Path dung lai id do. Vi vay khi chay Collection Runner phai giu thu tu GET -> POST -> PUT -> DELETE.\n\nYeu cau: provider chay tai http://localhost:8080 (cd provider && npm start).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Token hop le = ISO 8601 timestamp trong vong 1 gio va khong o tuong lai.",
+          "// Xem provider/middleware/auth.middleware.js: diff >= 0 && diff <= 3600",
+          "// Tru 5 giay de tranh lech dong ho client/server lam diff < 0 -> 401.",
+          "const token = new Date(Date.now() - 5000).toISOString();",
+          "pm.environment.set('authToken', token);",
+          "",
+          "// Token het han dung cho nhom Auth Fail (2 gio truoc -> diff > 3600).",
+          "pm.environment.set('expiredToken', new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString());"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "GET",
+      "item": [
+        {
+          "name": "Happy Path",
+          "item": [
+            {
+              "name": "GET /products - lay toan bo product",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('Body la mang khong rong', function () {",
+                      "    const body = pm.response.json();",
+                      "    pm.expect(body).to.be.an('array').that.is.not.empty;",
+                      "});",
+                      "",
+                      "// LUU Y HOP DONG: chi id/type/name la BAT BUOC.",
+                      "// POST /products khong yeu cau 'version' -> product tao ra co the thieu han field nay",
+                      "// (JSON.stringify bo qua undefined). Vi vay khong the assert 'version' cho MOI product.",
+                      "// Xem muc 'Van de da phat hien' trong AI_Audit_Report tuan 6.",
+                      "pm.test('Moi product co du id, type, name', function () {",
+                      "    pm.response.json().forEach(function (p) {",
+                      "        pm.expect(p).to.have.property('id');",
+                      "        pm.expect(p).to.have.property('type');",
+                      "        pm.expect(p).to.have.property('name');",
+                      "    });",
+                      "});",
+                      "",
+                      "pm.test('Product seed (09/10/11) co field version', function () {",
+                      "    pm.response.json()",
+                      "        .filter(function (p) { return ['09', '10', '11'].indexOf(p.id) !== -1; })",
+                      "        .forEach(function (p) { pm.expect(p).to.have.property('version'); });",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                },
+                "description": "Happy path: tra ve mang product seed (id 09, 10, 11)."
+              },
+              "response": []
+            },
+            {
+              "name": "GET /product/:id - lay product theo id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('Tra ve dung product seed 09', function () {",
+                      "    const p = pm.response.json();",
+                      "    pm.expect(p.id).to.eql('09');",
+                      "    pm.expect(p.type).to.eql('CREDIT_CARD');",
+                      "    pm.expect(p.name).to.eql('Gem Visa');",
+                      "    pm.expect(p.version).to.eql('v1');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{seedProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{seedProductId}}"]
+                },
+                "description": "Happy path: product seed 09 = CREDIT_CARD / Gem Visa / v1 (product.repository.js)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Negative",
+          "item": [
+            {
+              "name": "GET /product/:id - id khong ton tai -> 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 404', function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test('Message la \"Product not found\"', function () {",
+                      "    pm.expect(pm.response.json().message).to.eql('Product not found');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{missingProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{missingProductId}}"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Auth Fail",
+          "item": [
+            {
+              "name": "GET /products - thieu token -> 401",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 401', function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test('Error la \"Unauthorized\"', function () {",
+                      "    pm.expect(pm.response.json().error).to.eql('Unauthorized');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                },
+                "description": "Ghi de auth cap Collection bang 'No Auth' -> khong gui header Authorization -> middleware tra 401."
+              },
+              "response": []
+            },
+            {
+              "name": "GET /products - token het han -> 401",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 401', function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test('Error la \"Unauthorized\"', function () {",
+                      "    pm.expect(pm.response.json().error).to.eql('Unauthorized');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{expiredToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                },
+                "description": "Token 2 gio truoc -> diff > 3600 -> 401."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "POST",
+      "item": [
+        {
+          "name": "Happy Path",
+          "item": [
+            {
+              "name": "POST /products - tao product -> 201",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 201', function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "pm.test('Response co du id, type, name, version', function () {",
+                      "    const p = pm.response.json();",
+                      "    pm.expect(p).to.have.property('id');",
+                      "    pm.expect(p).to.have.property('type');",
+                      "    pm.expect(p).to.have.property('name');",
+                      "    pm.expect(p).to.have.property('version');",
+                      "});",
+                      "",
+                      "pm.test('Du lieu tra ve khop payload gui len', function () {",
+                      "    const p = pm.response.json();",
+                      "    pm.expect(p.type).to.eql('PERSONAL_LOAN');",
+                      "    pm.expect(p.name).to.eql('Postman Test Loan');",
+                      "    pm.expect(p.version).to.eql('v1');",
+                      "});",
+                      "",
+                      "// API Chaining: luu id vua tao cho PUT / DELETE Happy Path dung lai.",
+                      "pm.environment.set('createdProductId', pm.response.json().id);"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"PERSONAL_LOAN\",\n  \"name\": \"Postman Test Loan\",\n  \"version\": \"v1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                },
+                "description": "Tao product moi. Repository cap id tang dan bat dau tu 12."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Negative",
+          "item": [
+            {
+              "name": "POST /products - thieu name -> 400",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 400', function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test('Message la \"type and name are required\"', function () {",
+                      "    pm.expect(pm.response.json().message).to.eql('type and name are required');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CREDIT_CARD\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                },
+                "description": "Controller validate: thieu type hoac name -> 400."
+              },
+              "response": []
+            },
+            {
+              "name": "POST /products - body rong -> 400",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 400', function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test('Message la \"type and name are required\"', function () {",
+                      "    pm.expect(pm.response.json().message).to.eql('type and name are required');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Auth Fail",
+          "item": [
+            {
+              "name": "POST /products - thieu token -> 401",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 401', function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test('Error la \"Unauthorized\"', function () {",
+                      "    pm.expect(pm.response.json().error).to.eql('Unauthorized');",
+                      "});",
+                      "",
+                      "pm.test('Khong tao product khi chua auth (khong co id tra ve)', function () {",
+                      "    pm.expect(pm.response.json()).to.not.have.property('id');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CREDIT_CARD\",\n  \"name\": \"Should Not Be Created\",\n  \"version\": \"v1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                },
+                "description": "Kich ban ghi khi chua auth. Truoc commit ec080de (auth dang ky SAU routes) case nay tra 201 - la lo hong that su da duoc sua."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PUT",
+      "item": [
+        {
+          "name": "Happy Path",
+          "item": [
+            {
+              "name": "PUT /product/:id - cap nhat product vua tao -> 200",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 200', function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test('Response co du id, type, name, version', function () {",
+                      "    const p = pm.response.json();",
+                      "    pm.expect(p).to.have.property('id');",
+                      "    pm.expect(p).to.have.property('type');",
+                      "    pm.expect(p).to.have.property('name');",
+                      "    pm.expect(p).to.have.property('version');",
+                      "});",
+                      "",
+                      "pm.test('Field da duoc cap nhat dung', function () {",
+                      "    const p = pm.response.json();",
+                      "    pm.expect(p.id).to.eql(pm.environment.get('createdProductId'));",
+                      "    pm.expect(p.name).to.eql('Postman Updated Loan');",
+                      "    pm.expect(p.version).to.eql('v2');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"PERSONAL_LOAN\",\n  \"name\": \"Postman Updated Loan\",\n  \"version\": \"v2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{createdProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{createdProductId}}"]
+                },
+                "description": "Chaining: dung createdProductId do POST Happy Path set. Phai chay POST truoc."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Negative",
+          "item": [
+            {
+              "name": "PUT /product/:id - id khong ton tai -> 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 404', function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test('Message la \"Product not found\"', function () {",
+                      "    pm.expect(pm.response.json().message).to.eql('Product not found');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CREDIT_CARD\",\n  \"name\": \"Ghost Product\",\n  \"version\": \"v1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{missingProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{missingProductId}}"]
+                },
+                "description": "LUU Y: controller PUT khong validate body, nen KHONG co kich ban 400 cho PUT. Negative duy nhat la 404."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Auth Fail",
+          "item": [
+            {
+              "name": "PUT /product/:id - thieu token -> 401",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 401', function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test('Error la \"Unauthorized\"', function () {",
+                      "    pm.expect(pm.response.json().error).to.eql('Unauthorized');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"CREDIT_CARD\",\n  \"name\": \"Should Not Be Updated\",\n  \"version\": \"v9\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{seedProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{seedProductId}}"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DELETE",
+      "item": [
+        {
+          "name": "Happy Path",
+          "item": [
+            {
+              "name": "DELETE /product/:id - xoa product vua tao -> 204",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 204', function () {",
+                      "    pm.response.to.have.status(204);",
+                      "});",
+                      "",
+                      "// Controller: res.status(204).send() -> KHONG co body, khong co chuoi xac nhan.",
+                      "pm.test('Response body rong', function () {",
+                      "    pm.expect(pm.response.text()).to.eql('');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{createdProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{createdProductId}}"]
+                },
+                "description": "Chaining: xoa dung product da tao o POST, khong dung vao du lieu seed."
+              },
+              "response": []
+            },
+            {
+              "name": "GET /product/:id - xac nhan da xoa -> 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 404 sau khi xoa', function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test('Message la \"Product not found\"', function () {",
+                      "    pm.expect(pm.response.json().message).to.eql('Product not found');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{createdProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{createdProductId}}"]
+                },
+                "description": "Vi DELETE tra 204 body rong, dung GET de xac nhan hieu ung xoa da that su xay ra."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Negative",
+          "item": [
+            {
+              "name": "DELETE /product/:id - id khong ton tai -> 404",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 404', function () {",
+                      "    pm.response.to.have.status(404);",
+                      "});",
+                      "",
+                      "pm.test('Message la \"Product not found\"', function () {",
+                      "    pm.expect(pm.response.json().message).to.eql('Product not found');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{missingProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{missingProductId}}"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Auth Fail",
+          "item": [
+            {
+              "name": "DELETE /product/:id - thieu token -> 401",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status code la 401', function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test('Error la \"Unauthorized\"', function () {",
+                      "    pm.expect(pm.response.json().error).to.eql('Unauthorized');",
+                      "});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/product/{{seedProductId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["product", "{{seedProductId}}"]
+                },
+                "description": "Kich ban xoa khi chua auth - phai bi chan 401, du lieu seed 09 phai con nguyen."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

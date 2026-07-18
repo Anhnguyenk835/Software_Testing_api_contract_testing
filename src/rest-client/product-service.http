@@ -1,0 +1,185 @@
+# Product Service — REST Client scenarios
+#
+# Yeu cau: provider chay tai localhost:8080
+#   cd src/sample-api/pact-workshop-js/provider && npm install && npm start
+#
+# Auth: middleware doi header `Authorization: Bearer <ISO 8601 timestamp>`,
+# timestamp phai trong vong 1 gio VA khong o tuong lai (diff >= 0 && diff <= 3600).
+# Dung {{$datetime iso8601 -1 m}} (1 phut truoc) de tranh lech dong ho gay 401.
+#
+# Chay: bam "Send Request" phia tren moi block, hoac Ctrl+Alt+R.
+
+@baseUrl = http://localhost:8080
+@token = {{$datetime iso8601 -1 m}}
+@expiredToken = {{$datetime iso8601 -2 h}}
+@seedProductId = 09
+@missingProductId = 99999
+
+
+# =============================================================
+# GET
+# =============================================================
+
+### GET /products — Happy Path → 200, mang product
+GET {{baseUrl}}/products
+Authorization: Bearer {{token}}
+Accept: application/json
+
+
+### GET /product/:id — Happy Path → 200, product 09 (CREDIT_CARD / Gem Visa / v1)
+GET {{baseUrl}}/product/{{seedProductId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+
+### GET /product/:id — Negative → 404 {"message":"Product not found"}
+GET {{baseUrl}}/product/{{missingProductId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+
+### GET /products — Auth Fail: thieu header → 401 {"error":"Unauthorized"}
+GET {{baseUrl}}/products
+Accept: application/json
+
+
+### GET /products — Auth Fail: token het han (2h truoc) → 401
+GET {{baseUrl}}/products
+Authorization: Bearer {{expiredToken}}
+Accept: application/json
+
+
+### GET /products — Auth Fail: token khong phai ISO timestamp → 401
+GET {{baseUrl}}/products
+Authorization: Bearer not-a-timestamp
+Accept: application/json
+
+
+# =============================================================
+# POST
+# =============================================================
+
+### POST /products — Happy Path → 201, product moi (id cap tu 12)
+# @name createProduct
+POST {{baseUrl}}/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "PERSONAL_LOAN",
+  "name": "RestClient Test Loan",
+  "version": "v1"
+}
+
+
+### Chaining: lay id tu response cua createProduct o tren
+@createdId = {{createProduct.response.body.$.id}}
+
+
+### POST /products — Negative: thieu name → 400 {"message":"type and name are required"}
+POST {{baseUrl}}/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "CREDIT_CARD"
+}
+
+
+### POST /products — Negative: body rong → 400
+POST {{baseUrl}}/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+
+### POST /products — Auth Fail: thieu token → 401
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "type": "CREDIT_CARD",
+  "name": "Should Not Be Created",
+  "version": "v1"
+}
+
+
+# NOTE: POST khong co kich ban 404 — route /products luon ton tai.
+# Goi sai path (vd POST /product/09) se tra 404 cua Express, khong phai loi nghiep vu.
+
+
+# =============================================================
+# PUT
+# =============================================================
+
+### PUT /product/:id — Happy Path → 200, product da cap nhat
+# Phu thuoc createProduct o tren: chay block POST Happy Path truoc.
+PUT {{baseUrl}}/product/{{createdId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "PERSONAL_LOAN",
+  "name": "RestClient Updated Loan",
+  "version": "v2"
+}
+
+
+### PUT /product/:id — Negative: id khong ton tai → 404
+PUT {{baseUrl}}/product/{{missingProductId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "CREDIT_CARD",
+  "name": "Ghost Product",
+  "version": "v1"
+}
+
+
+### PUT /product/:id — Auth Fail: thieu token → 401
+PUT {{baseUrl}}/product/{{seedProductId}}
+Content-Type: application/json
+
+{
+  "type": "CREDIT_CARD",
+  "name": "Should Not Be Updated",
+  "version": "v9"
+}
+
+
+# NOTE: PUT KHONG co kich ban 400.
+# product.controller.js:22-26 khong validate body — dung `??` de giu gia tri cu,
+# nen `PUT {}` len mot id hop le van tra 200. Xem block duoi de kiem chung.
+
+### PUT /product/:id — body rong tren id hop le → 200 (KHONG phai 400)
+PUT {{baseUrl}}/product/{{seedProductId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+
+# =============================================================
+# DELETE
+# =============================================================
+
+### DELETE /product/:id — Happy Path → 204, body rong (khong co chuoi xac nhan)
+DELETE {{baseUrl}}/product/{{createdId}}
+Authorization: Bearer {{token}}
+
+
+### DELETE — xac nhan da xoa: GET lai id vua xoa → 404
+GET {{baseUrl}}/product/{{createdId}}
+Authorization: Bearer {{token}}
+Accept: application/json
+
+
+### DELETE /product/:id — Negative: id khong ton tai → 404
+DELETE {{baseUrl}}/product/{{missingProductId}}
+Authorization: Bearer {{token}}
+
+
+### DELETE /product/:id — Auth Fail: thieu token → 401 (seed 09 phai con nguyen)
+DELETE {{baseUrl}}/product/{{seedProductId}}
