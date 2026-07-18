@@ -11,33 +11,33 @@
 ```
 Product Service - Data Driven Tests (Collection)
 │
-├── 🔧 _Setup (Pre-flight)
+├── _Setup (Pre-flight)
 │   └── GET /products [smoke test]          ← kiểm tra server đang chạy
 │
-├── 📂 GET — Happy Path
+├── GET — Happy Path
 │   ├── GET /products [list all]            ← data: get-products.data.json (row 01)
 │   └── GET /product/:id [by id]            ← data: get-product-by-id.data.json (rows 01-03)
 │
-├── 📂 GET — Negative
+├── GET — Negative
 │   ├── GET /products [auth fail]           ← data: get-products.data.json (rows 02-04)
 │   └── GET /product/:id [not found / auth fail]  ← data: get-product-by-id.data.json (rows 04-07)
 │
-├── 📂 POST — Happy Path
+├── POST — Happy Path
 │   └── POST /products [create]             ← data: post-products.data.json (rows 01-02)
 │
-├── 📂 POST — Negative
+├── POST — Negative
 │   └── POST /products [missing field / auth fail]  ← data: post-products.data.json (rows 03-07)
 │
-├── 📂 PUT — Happy Path
+├── PUT — Happy Path
 │   └── PUT /product/:id [update]           ← data: put-product.data.json (rows 01-02)
 │
-├── 📂 PUT — Negative
+├── PUT — Negative
 │   └── PUT /product/:id [not found / auth fail]  ← data: put-product.data.json (rows 03-06)
 │
-├── 📂 DELETE — Happy Path
+├── DELETE — Happy Path
 │   └── DELETE /product/:id [remove]        ← data: delete-product.data.json (row 01)
 │
-└── 📂 DELETE — Negative
+└── DELETE — Negative
     └── DELETE /product/:id [not found / auth fail]  ← data: delete-product.data.json (rows 02-05)
 ```
 
