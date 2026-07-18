@@ -10,30 +10,30 @@
 
 ### POST /products
 
-| Kịch bản                    | Body                             | Auth      | Status | Response body kỳ vọng                  |
-| :-------------------------- | :------------------------------- | :-------- | :----- | :-------------------------------------- |
-| Happy path — body đầy đủ    | `{type, name, version}`          | Hợp lệ    | `201`  | `{id, type, name, version}` (resource)  |
-| Missing field — thiếu `type`| `{name: "Card X"}`               | Hợp lệ    | `400`  | `{message: "type and name are required"}` |
-| Missing field — thiếu `name`| `{type: "CREDIT_CARD"}`          | Hợp lệ    | `400`  | `{message: "type and name are required"}` |
-| Empty body                  | `{}`                             | Hợp lệ    | `400`  | `{message: "type and name are required"}` |
-| Auth fail — no token        | `{type, name, version}`          | Không có  | `401`  | `{error: "Unauthorized"}`               |
-| Auth fail — expired token   | `{type, name, version}`          | Hết hạn   | `401`  | `{error: "Unauthorized"}`               |
+| Kịch bản                     | Body                    | Auth     | Status | Response body kỳ vọng                     |
+| :--------------------------- | :---------------------- | :------- | :----- | :---------------------------------------- |
+| Happy path — body đầy đủ     | `{type, name, version}` | Hợp lệ   | `201`  | `{id, type, name, version}` (resource)    |
+| Missing field — thiếu `type` | `{name: "Card X"}`      | Hợp lệ   | `400`  | `{message: "type and name are required"}` |
+| Missing field — thiếu `name` | `{type: "CREDIT_CARD"}` | Hợp lệ   | `400`  | `{message: "type and name are required"}` |
+| Empty body                   | `{}`                    | Hợp lệ   | `400`  | `{message: "type and name are required"}` |
+| Auth fail — no token         | `{type, name, version}` | Không có | `401`  | `{error: "Unauthorized"}`                 |
+| Auth fail — expired token    | `{type, name, version}` | Hết hạn  | `401`  | `{error: "Unauthorized"}`                 |
 
 ### PUT /product/:id
 
-| Kịch bản                | id  | Body                    | Auth    | Status | Response body kỳ vọng                  |
-| :---------------------- | :-- | :---------------------- | :------ | :----- | :-------------------------------------- |
-| Happy path — id tồn tại | `10`| `{type, name, version}` | Hợp lệ  | `200`  | `{id, type, name, version}` (updated)   |
-| Not found — id không tồn tại | `99`| `{type, name}`    | Hợp lệ  | `404`  | `{message: "Product not found"}`        |
-| Auth fail — no token    | `10`| `{type, name}`          | Không có| `401`  | `{error: "Unauthorized"}`               |
+| Kịch bản                     | id   | Body                    | Auth     | Status | Response body kỳ vọng                 |
+| :--------------------------- | :--- | :---------------------- | :------- | :----- | :------------------------------------ |
+| Happy path — id tồn tại      | `10` | `{type, name, version}` | Hợp lệ   | `200`  | `{id, type, name, version}` (updated) |
+| Not found — id không tồn tại | `99` | `{type, name}`          | Hợp lệ   | `404`  | `{message: "Product not found"}`      |
+| Auth fail — no token         | `10` | `{type, name}`          | Không có | `401`  | `{error: "Unauthorized"}`             |
 
 ### DELETE /product/:id
 
-| Kịch bản                | id  | Auth    | Status | Response body kỳ vọng         |
-| :---------------------- | :-- | :------ | :----- | :----------------------------- |
-| Happy path — id tồn tại | `11`| Hợp lệ  | `204`  | (body rỗng — No Content)      |
-| Not found — id không tồn tại | `99`| Hợp lệ | `404` | `{message: "Product not found"}` |
-| Auth fail — no token    | `11`| Không có| `401`  | `{error: "Unauthorized"}`      |
+| Kịch bản                     | id   | Auth     | Status | Response body kỳ vọng            |
+| :--------------------------- | :--- | :------- | :----- | :------------------------------- |
+| Happy path — id tồn tại      | `11` | Hợp lệ   | `204`  | (body rỗng — No Content)         |
+| Not found — id không tồn tại | `99` | Hợp lệ   | `404`  | `{message: "Product not found"}` |
+| Auth fail — no token         | `11` | Không có | `401`  | `{error: "Unauthorized"}`        |
 
 ---
 
@@ -267,14 +267,14 @@ Lưu tại: `src/postman/data/delete-product.data.json`
 Lưu tại: `src/postman/data/post-products.data.csv`
 
 ```csv
-tc_id,description,auth_header,body_type,body_name,body_version,expected_status,expect_has_id,expect_message,expect_error_field
-POST_01,Happy path đầy đủ,{{validToken}},CREDIT_CARD,SEBros Test Card,v1,201,true,,
-POST_02,Happy path thiếu version,{{validToken}},PERSONAL_LOAN,Quick Loan,,201,true,,
-POST_03,Missing type — thiếu type,{{validToken}},,No Type Card,v1,400,,type and name are required,
-POST_04,Missing name — thiếu name,{{validToken}},CREDIT_CARD,,,400,,type and name are required,
-POST_05,Empty body,{{validToken}},,,,400,,type and name are required,
-POST_06,Auth fail no token,,CREDIT_CARD,Unauthorized Card,,401,,,error
-POST_07,Auth fail expired,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Card,,401,,,error
+tc_id,description,auth_header,body_type,body_name,body_version,expected_status,expect_has_id,expect_field_type,expect_field_name,expect_message,expect_error_field
+POST_01,Happy path đầy đủ,{{validToken}},CREDIT_CARD,SEBros Test Card,v1,201,true,CREDIT_CARD,SEBros Test Card,,
+POST_02,Happy path thiếu version,{{validToken}},PERSONAL_LOAN,Quick Loan,,201,true,PERSONAL_LOAN,Quick Loan,,
+POST_03,Missing type — thiếu type,{{validToken}},,No Type Card,v1,400,,,,"type and name are required",
+POST_04,Missing name — thiếu name,{{validToken}},CREDIT_CARD,,,400,,,,"type and name are required",
+POST_05,Empty body,{{validToken}},,,,400,,,,"type and name are required",
+POST_06,Auth fail no token,,CREDIT_CARD,Unauthorized Card,,401,,,,,error
+POST_07,Auth fail expired,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Card,,401,,,,,error
 ```
 
 ### 3.2 `put-product.data.csv`
@@ -282,13 +282,13 @@ POST_07,Auth fail expired,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Ca
 Lưu tại: `src/postman/data/put-product.data.csv`
 
 ```csv
-tc_id,description,product_id,auth_header,body_type,body_name,body_version,expected_status,expect_field_name,expect_message,expect_error_field
-PUT_01,Happy path id=10,10,{{validToken}},CREDIT_CARD,28 Degrees Updated,v2,200,28 Degrees Updated,,
-PUT_02,Happy path id=09 partial,09,{{validToken}},CREDIT_CARD,Gem Visa Renewed,,200,Gem Visa Renewed,,
-PUT_03,Not found id=99,99,{{validToken}},CREDIT_CARD,Ghost Product,,404,,Product not found,
-PUT_04,Not found id=abc,abc,{{validToken}},PERSONAL_LOAN,Invalid ID,,404,,Product not found,
-PUT_05,Auth fail no token,10,,CREDIT_CARD,No Auth Update,,401,,,error
-PUT_06,Auth fail expired,10,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Update,,401,,,error
+tc_id,description,product_id,auth_header,body_type,body_name,body_version,expected_status,expect_field_id,expect_field_name,expect_message,expect_error_field
+PUT_01,Happy path id=10,10,{{validToken}},CREDIT_CARD,28 Degrees Updated,v2,200,10,28 Degrees Updated,,
+PUT_02,Happy path id=09 partial,09,{{validToken}},CREDIT_CARD,Gem Visa Renewed,,200,09,Gem Visa Renewed,,
+PUT_03,Not found id=99,99,{{validToken}},CREDIT_CARD,Ghost Product,,404,,,Product not found,
+PUT_04,Not found id=abc,abc,{{validToken}},PERSONAL_LOAN,Invalid ID,,404,,,Product not found,
+PUT_05,Auth fail no token,10,,CREDIT_CARD,No Auth Update,,401,,,,error
+PUT_06,Auth fail expired,10,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Update,,401,,,,error
 ```
 
 ### 3.3 `delete-product.data.csv`
@@ -308,21 +308,21 @@ DELETE_05,Auth fail expired,10,Bearer 2020-01-01T00:00:00.000Z,401,,,error
 
 ## 4. Giải thích cột dữ liệu (Write APIs)
 
-| Cột                   | Mục đích                                                                          |
-| :-------------------- | :-------------------------------------------------------------------------------- |
-| `tc_id`               | ID test case — truy vết khi Runner báo lỗi                                       |
-| `description`         | Mô tả kịch bản — hiện trong Runner results                                        |
-| `product_id`          | Giá trị `:id` trong URL (PUT/DELETE) — map vào path variable                     |
-| `auth_header`         | Giá trị header `Authorization` — resolve từ Pre-request script                   |
-| `body_type`           | Field `type` trong request body (CSV split body thành nhiều cột)                 |
-| `body_name`           | Field `name` trong request body                                                   |
-| `body_version`        | Field `version` trong request body (optional)                                    |
-| `expected_status`     | HTTP status code kỳ vọng                                                          |
-| `expect_has_id`       | `true` = response body 201 phải có field `id` (POST happy path)                  |
-| `expect_field_name`   | Giá trị `name` kỳ vọng trong response (PUT happy path)                            |
-| `expect_message`      | Giá trị `message` kỳ vọng trong error body (400/404)                             |
-| `expect_error_field`  | Tên field `error` kỳ vọng trong error body (401)                                 |
-| `expect_empty_body`   | `true` = response 204 không có body (DELETE happy path)                           |
+| Cột                  | Mục đích                                                         |
+| :------------------- | :--------------------------------------------------------------- |
+| `tc_id`              | ID test case — truy vết khi Runner báo lỗi                       |
+| `description`        | Mô tả kịch bản — hiện trong Runner results                       |
+| `product_id`         | Giá trị `:id` trong URL (PUT/DELETE) — map vào path variable     |
+| `auth_header`        | Giá trị header `Authorization` — resolve từ Pre-request script   |
+| `body_type`          | Field `type` trong request body (CSV split body thành nhiều cột) |
+| `body_name`          | Field `name` trong request body                                  |
+| `body_version`       | Field `version` trong request body (optional)                    |
+| `expected_status`    | HTTP status code kỳ vọng                                         |
+| `expect_has_id`      | `true` = response body 201 phải có field `id` (POST happy path)  |
+| `expect_field_name`  | Giá trị `name` kỳ vọng trong response (PUT happy path)           |
+| `expect_message`     | Giá trị `message` kỳ vọng trong error body (400/404)             |
+| `expect_error_field` | Tên field `error` kỳ vọng trong error body (401)                 |
+| `expect_empty_body`  | `true` = response 204 không có body (DELETE happy path)          |
 
 ---
 
@@ -335,12 +335,12 @@ DELETE_05,Auth fail expired,10,Bearer 2020-01-01T00:00:00.000Z,401,,,error
    const bodyType = pm.iterationData.get("body_type");
    const bodyName = pm.iterationData.get("body_name");
    const bodyVersion = pm.iterationData.get("body_version");
-   
+
    const body = {};
    if (bodyType) body.type = bodyType;
    if (bodyName) body.name = bodyName;
    if (bodyVersion) body.version = bodyVersion;
-   
+
    pm.variables.set("requestBody", JSON.stringify(body));
    ```
 

@@ -3,6 +3,6 @@ POST_01,Happy path đầy đủ,{{validToken}},CREDIT_CARD,SEBros Test Card,v1,2
 POST_02,Happy path thiếu version,{{validToken}},PERSONAL_LOAN,Quick Loan,,201,true,PERSONAL_LOAN,Quick Loan,,
 POST_03,Missing type — thiếu type,{{validToken}},,No Type Card,v1,400,,,,"type and name are required",
 POST_04,Missing name — thiếu name,{{validToken}},CREDIT_CARD,,,400,,,,"type and name are required",
-POST_05,Empty body,{{validToken}},,,, 400,,,,"type and name are required",
-POST_06,Auth fail no token,,CREDIT_CARD,Unauthorized Card,,401,,,,, error
+POST_05,Empty body,{{validToken}},,,,400,,,,"type and name are required",
+POST_06,Auth fail no token,,CREDIT_CARD,Unauthorized Card,,401,,,,,error
 POST_07,Auth fail expired,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Card,,401,,,,,error

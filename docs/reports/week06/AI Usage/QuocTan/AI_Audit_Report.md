@@ -2,12 +2,12 @@
 
 ## Thông tin sinh viên (Student Information)
 
-| Field                          | Value                                               |
-| ------------------------------ | --------------------------------------------------- |
-| **MSSV (Student ID)**          | 23127115                                            |
-| **Họ tên (Full Name)**         | Mạch Quốc Tấn                                       |
-| **Mã bài tập (Assignment)**    | Seminar W06 — Data-Driven Testing với Postman        |
-| **Ngày nộp (Submission Date)** | 2026-07-18                                          |
+| Field                          | Value                                         |
+| ------------------------------ | --------------------------------------------- |
+| **MSSV (Student ID)**          | 23127115                                      |
+| **Họ tên (Full Name)**         | Mạch Quốc Tấn                                 |
+| **Mã bài tập (Assignment)**    | Seminar W06 — Data-Driven Testing với Postman |
+| **Ngày nộp (Submission Date)** | 2026-07-18                                    |
 
 ---
 
@@ -19,11 +19,11 @@
 
 ## Tổng quan sử dụng AI (AI Usage Overview)
 
-| #   | AI Tool                        | Task Category                | Feature                            | Date       | Bloom-AI Level  |
-| --- | ------------------------------ | ---------------------------- | ---------------------------------- | ---------- | --------------- |
-| 1   | Claude Sonnet 4.6 (Thinking)   | Code Analysis & Data Design  | Data-Driven Dataset Preparation    | 2026-07-18 | G9.4 (Create)   |
-| 2   | Claude Sonnet 4.6 (Thinking)   | Script Writing               | Postman Dynamic Test Scripts       | 2026-07-18 | G9.4 (Create)   |
-| 3   | Claude Sonnet 4.6 (Thinking)   | Documentation & Demo Prep    | Collection Organization & Seminar Notes | 2026-07-18 | G9.3 (Analyse) |
+| #   | AI Tool                      | Task Category               | Feature                                 | Date       | Bloom-AI Level |
+| --- | ---------------------------- | --------------------------- | --------------------------------------- | ---------- | -------------- |
+| 1   | Claude Sonnet 4.6 (Thinking) | Code Analysis & Data Design | Data-Driven Dataset Preparation         | 2026-07-18 | G9.4 (Create)  |
+| 2   | Claude Sonnet 4.6 (Thinking) | Script Writing              | Postman Dynamic Test Scripts            | 2026-07-18 | G9.4 (Create)  |
+| 3   | Claude Sonnet 4.6 (Thinking) | Documentation & Demo Prep   | Collection Organization & Seminar Notes | 2026-07-18 | G9.3 (Analyse) |
 
 ---
 
@@ -31,13 +31,13 @@
 
 ### Entry 1 — Phân tích mã nguồn và soạn dataset data-driven cho API đọc/ghi
 
-| Field              | Value                                                                                               |
-| ------------------ | --------------------------------------------------------------------------------------------------- |
-| **AI Tool**        | Claude Sonnet 4.6 (Thinking)                                                                        |
-| **Date/Time**      | 2026-07-18 12:37:32 +07:00                                                                          |
+| Field              | Value                                                                                                           |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| **AI Tool**        | Claude Sonnet 4.6 (Thinking)                                                                                    |
+| **Date/Time**      | 2026-07-18 12:37:32 +07:00                                                                                      |
 | **Task**           | Đọc mã nguồn `src/`, soạn bộ dữ liệu JSON và CSV cho GET/POST/PUT/DELETE theo kịch bản happy/negative/auth-fail |
-| **Feature**        | Data-Driven Dataset Preparation                                                                     |
-| **Bloom-AI Level** | G9.4 (Create) — Tổng hợp từ mã nguồn thực tế, tạo mới bộ dữ liệu test hoàn chỉnh đa kịch bản     |
+| **Feature**        | Data-Driven Dataset Preparation                                                                                 |
+| **Bloom-AI Level** | G9.4 (Create) — Tổng hợp từ mã nguồn thực tế, tạo mới bộ dữ liệu test hoàn chỉnh đa kịch bản                    |
 
 #### Prompt
 
@@ -123,25 +123,25 @@ Các bước AI đã thực hiện:
 
 #### Human Review
 
-| Aspect           | Detail                                                                         |
-| ---------------- | ------------------------------------------------------------------------------ |
-| Reviewed by      | Mạch Quốc Tấn                                                                  |
-| Review date      | 2026-07-18                                                                     |
-| Corrections made | Không — nội dung khớp với mã nguồn thực tế sau khi đối chiếu trực tiếp        |
-| Quality rating   | Good                                                                           |
+| Aspect           | Detail                                                                                                                                                     |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Reviewed by      | Mạch Quốc Tấn                                                                                                                                              |
+| Review date      | 2026-07-18                                                                                                                                                 |
+| Corrections made | Không — nội dung khớp với mã nguồn thực tế sau khi đối chiếu trực tiếp                                                                                     |
+| Quality rating   | Good                                                                                                                                                       |
 | Issues found     | Dataset DELETE_01 dùng id=11 — cần chạy sau cùng hoặc restart server để tránh ảnh hưởng GET_BY_ID_03; đã ghi chú trong collection-organization.md phần 4.3 |
 
 ---
 
 ### Entry 2 — Viết test script động cho Postman (5 endpoint)
 
-| Field              | Value                                                                                          |
-| ------------------ | ---------------------------------------------------------------------------------------------- |
-| **AI Tool**        | Claude Sonnet 4.6 (Thinking)                                                                   |
-| **Date/Time**      | 2026-07-18 12:37:32 +07:00                                                                     |
+| Field              | Value                                                                                              |
+| ------------------ | -------------------------------------------------------------------------------------------------- |
+| **AI Tool**        | Claude Sonnet 4.6 (Thinking)                                                                       |
+| **Date/Time**      | 2026-07-18 12:37:32 +07:00                                                                         |
 | **Task**           | Viết Pre-request Script sinh Bearer token động và 5 Test Script template với conditional assertion |
-| **Feature**        | Postman Dynamic Test Scripts                                                                   |
-| **Bloom-AI Level** | G9.4 (Create) — Tạo mới toàn bộ script logic từ đặc tả auth middleware và controller behavior |
+| **Feature**        | Postman Dynamic Test Scripts                                                                       |
+| **Bloom-AI Level** | G9.4 (Create) — Tạo mới toàn bộ script logic từ đặc tả auth middleware và controller behavior      |
 
 #### Prompt
 
@@ -194,12 +194,12 @@ Script đã viết trong postman-test-scripts.md:
 
 #### Human Review
 
-| Aspect           | Detail                                                                                        |
-| ---------------- | --------------------------------------------------------------------------------------------- |
-| Reviewed by      | Mạch Quốc Tấn                                                                                 |
-| Review date      | 2026-07-18                                                                                    |
-| Corrections made | Không — script logic phù hợp với API behavior đã xác nhận từ mã nguồn                         |
-| Quality rating   | Good                                                                                          |
+| Aspect           | Detail                                                                                                                                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Reviewed by      | Mạch Quốc Tấn                                                                                                                                                        |
+| Review date      | 2026-07-18                                                                                                                                                           |
+| Corrections made | Không — script logic phù hợp với API behavior đã xác nhận từ mã nguồn                                                                                                |
+| Quality rating   | Good                                                                                                                                                                 |
 | Issues found     | pm.iterationData.get() trả về string khi dùng CSV (không phải boolean) — script đã xử lý đúng bằng so sánh `=== "true"` cả hai trường hợp JSON boolean và CSV string |
 
 ---
@@ -260,26 +260,25 @@ Các bước AI đã thực hiện:
 
 #### Human Review
 
-| Aspect           | Detail                                                                          |
-| ---------------- | ------------------------------------------------------------------------------- |
-| Reviewed by      | Mạch Quốc Tấn                                                                   |
-| Review date      | 2026-07-18                                                                      |
-| Corrections made | Không — cấu trúc folder phù hợp với tổ chức collection hiện tại của nhóm       |
-| Quality rating   | Good                                                                            |
-| Issues found     | None                                                                            |
-
+| Aspect           | Detail                                                                   |
+| ---------------- | ------------------------------------------------------------------------ |
+| Reviewed by      | Mạch Quốc Tấn                                                            |
+| Review date      | 2026-07-18                                                               |
+| Corrections made | Không — cấu trúc folder phù hợp với tổ chức collection hiện tại của nhóm |
+| Quality rating   | Good                                                                     |
+| Issues found     | None                                                                     |
 
 ---
 
 ### Entry 4 — Phản biện tài liệu, tạo file thực tế src/postman/ và chạy thử Newman
 
-| Field              | Value                                                                                               |
-| ------------------ | --------------------------------------------------------------------------------------------------- |
-| **AI Tool**        | Claude Sonnet 4.6 (Thinking)                                                                        |
-| **Date/Time**      | 2026-07-18 17:53:55 +07:00                                                                          |
+| Field              | Value                                                                                                                                                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **AI Tool**        | Claude Sonnet 4.6 (Thinking)                                                                                                                                                                              |
+| **Date/Time**      | 2026-07-18 17:53:55 +07:00                                                                                                                                                                                |
 | **Task**           | Đọc và phản biện 4 file MD đã có trong evidences/QuocTan; tạo file thực tế trong src/postman/ (JSON dataset, CSV dataset, Postman Collection JSON, Environment JSON, README); chạy thử Newman để xác nhận |
-| **Feature**        | Data-Driven Testing Implementation & Verification                                                   |
-| **Bloom-AI Level** | G9.3 (Analyse) + G9.4 (Create) — Phân tích, phản biện tài liệu có sẵn; tổng hợp và tạo file thực thi hoàn chỉnh |
+| **Feature**        | Data-Driven Testing Implementation & Verification                                                                                                                                                         |
+| **Bloom-AI Level** | G9.3 (Analyse) + G9.4 (Create) — Phân tích, phản biện tài liệu có sẵn; tổng hợp và tạo file thực thi hoàn chỉnh                                                                                           |
 
 #### Prompt
 
@@ -361,43 +360,43 @@ Phản biện phát hiện:
 
 #### Human Review
 
-| Aspect           | Detail                                                                         |
-| ---------------- | ------------------------------------------------------------------------------ |
-| Reviewed by      | Mạch Quốc Tấn                                                                  |
-| Review date      | 2026-07-18                                                                     |
+| Aspect           | Detail                                                                                                                                                                                             |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Reviewed by      | Mạch Quốc Tấn                                                                                                                                                                                      |
+| Review date      | 2026-07-18                                                                                                                                                                                         |
 | Corrections made | Có — Collection JSON: Pre-request Script dùng pm.request.headers.upsert/remove trực tiếp thay vì set variable trước để đảm bảo header được xử lý đúng trong mọi context (Postman GUI + Newman CLI) |
-| Quality rating   | Good                                                                           |
-| Issues found     | CSV POST_05 và POST_06 vẫn còn whitespace thừa trong một số field — đã được xử lý bởi `.trim()` trong Test Script POST — Negative |
+| Quality rating   | Good                                                                                                                                                                                               |
+| Issues found     | CSV POST_05 và POST_06 vẫn còn whitespace thừa trong một số field — đã được xử lý bởi `.trim()` trong Test Script POST — Negative                                                                  |
 
 ---
 
 ## Thống kê tổng hợp (Summary Statistics)
 
-| Metric                                 | Value                                                                              |
-| -------------------------------------- | ---------------------------------------------------------------------------------- |
-| Total AI interactions                  | 4                                                                                  |
-| AI tools used                          | Claude Sonnet 4.6 (Thinking)                                                       |
-| Features covered                       | Data-Driven Dataset, Postman Test Scripts, Collection Organization & Demo Notes, Implementation & Verification |
-| Documents created / updated            | data-driven-read-api.md, data-driven-write-api.md, postman-test-scripts.md, collection-organization.md, AI_Audit_Report.md (updated), src/postman/README.md, 10 data files, product-service-data-driven.postman_collection.json, local.postman_environment.json |
-| Issues found by audit                  | 7 (2 từ Entry 1-3, 5 từ Entry 4 phản biện)                                        |
-| Issues resolved                        | 6/7 (5 trong tài liệu + 1 trong collection script; CSV whitespace xử lý bằng trim) |
-| Test cases designed (JSON + CSV)       | 29 test cases (4+7+7+6+5) cho 5 endpoint                                           |
-| Data files created (thực tế)          | 10 files tại src/postman/data/                                                     |
-| Postman Collection folders             | 9 (1 setup + 4 method × 2 happy/negative)                                         |
-| Postman requests with scripts          | 10 request với Pre-request + Test Script                                           |
+| Metric                           | Value                                                                                                                                                                                                                                                                     |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Total AI interactions            | 4                                                                                                                                                                                                                                                                         |
+| AI tools used                    | Claude Sonnet 4.6 (Thinking)                                                                                                                                                                                                                                              |
+| Features covered                 | Data-Driven Dataset, Postman Test Scripts, Collection Organization & Demo Notes, Implementation & Verification                                                                                                                                                            |
+| Documents created / updated      | data-driven-read-api.md, data-driven-write-api.md, postman-test-scripts.md, collection-organization.md, guide.md, AI_Audit_Report.md (updated), src/postman/README.md, 10 data files, product-service-data-driven.postman_collection.json, local.postman_environment.json |
+| Issues found by audit            | 7 (2 từ Entry 1-3, 5 từ Entry 4 phản biện)                                                                                                                                                                                                                                |
+| Issues resolved                  | 6/7 (5 trong tài liệu + 1 trong collection script; CSV whitespace xử lý bằng trim)                                                                                                                                                                                        |
+| Test cases designed (JSON + CSV) | 29 test cases (4+7+7+6+5) cho 5 endpoint                                                                                                                                                                                                                                  |
+| Data files created (thực tế)     | 10 files tại src/postman/data/                                                                                                                                                                                                                                            |
+| Postman Collection folders       | 9 (1 setup + 4 method × 2 happy/negative)                                                                                                                                                                                                                                 |
+| Postman requests with scripts    | 10 request với Pre-request + Test Script                                                                                                                                                                                                                                  |
 
 ### AI Contribution Breakdown
 
-| Task                              | AI Contribution | Human Contribution |
-| --------------------------------- | --------------- | ------------------ |
-| Source Code Analysis              | 85%             | 15%                |
-| Test Case Design & Dataset Writing| 90%             | 10%                |
-| Postman Script Writing            | 90%             | 10%                |
-| Collection Structure Design       | 80%             | 20%                |
-| Demo/Seminar Notes                | 75%             | 25%                |
-| Critical Review & Rebuttal        | 70%             | 30%                |
-| File Implementation (src/)        | 95%             | 5%                 |
-| Review & Quality Assessment       | 10%             | 90%                |
+| Task                               | AI Contribution | Human Contribution |
+| ---------------------------------- | --------------- | ------------------ |
+| Source Code Analysis               | 85%             | 15%                |
+| Test Case Design & Dataset Writing | 90%             | 10%                |
+| Postman Script Writing             | 90%             | 10%                |
+| Collection Structure Design        | 80%             | 20%                |
+| Demo/Seminar Notes                 | 75%             | 25%                |
+| Critical Review & Rebuttal         | 70%             | 30%                |
+| File Implementation (src/)         | 95%             | 5%                 |
+| Review & Quality Assessment        | 10%             | 90%                |
 
 ---
 
@@ -410,4 +409,3 @@ Phản biện phát hiện:
 - [x] Kết quả phản hồi của AI
 - [x] Nhật ký đánh giá của sinh viên (Human Review)
 - [x] Định dạng Markdown chuẩn
-

@@ -1,15 +1,16 @@
 # Postman — Collections, Environments & Data Files
 
-Chứa toàn bộ file Postman cho data-driven testing — **Nhóm 3 (SEBros), Tuần W06**.
+Chứa toàn bộ các file cấu hình Postman (Collections, Environments và Data Files) phục vụ cho kịch bản kiểm thử API Product Service của **Nhóm 3 (SEBros), Tuần W06**.
 
 ## Cấu trúc
 
 ```
 postman/
 ├── collections/
-│   └── product-service-data-driven.postman_collection.json   # Collection hoàn chỉnh (9 folder, 10 request)
+│   ├── product-service-data-driven.postman_collection.json   # Collection kiểm thử động theo dữ liệu (Data-Driven, 29 test cases)
+│   └── product-service.postman_collection.json               # Collection kiểm thử tĩnh và tích hợp luồng (API Chaining)
 ├── environments/
-│   └── local.postman_environment.json               # baseUrl = http://localhost:8080
+│   └── local.postman_environment.json                        # Môi trường local chung (baseUrl = http://localhost:8080)
 └── data/
     ├── get-products.data.json          # GET /products       — 4 test cases
     ├── get-products.data.csv
@@ -52,19 +53,19 @@ pnpm start   # Provider chạy tại http://localhost:8080
 
 ### Mapping folder → data file → số iterations
 
-| Folder | Data file | Iterations |
-|:-------|:----------|:----------:|
-| `_Setup (Pre-flight)` | *(không cần data file)* | 1 |
-| `GET — Happy Path` — GET /products | `get-products.data.json` | 1 |
-| `GET — Happy Path` — GET /product/:id | `get-product-by-id.data.json` | 3 |
-| `GET — Negative` — GET /products | `get-products.data.json` | 3 |
-| `GET — Negative` — GET /product/:id | `get-product-by-id.data.json` | 4 |
-| `POST — Happy Path` | `post-products.data.json` | 2 |
-| `POST — Negative` | `post-products.data.json` | 5 |
-| `PUT — Happy Path` | `put-product.data.json` | 2 |
-| `PUT — Negative` | `put-product.data.json` | 4 |
-| `DELETE — Happy Path` | `delete-product.data.json` | 1 |
-| `DELETE — Negative` | `delete-product.data.json` | 4 |
+| Folder                                | Data file                     | Iterations |
+| :------------------------------------ | :---------------------------- | :--------: |
+| `_Setup (Pre-flight)`                 | _(không cần data file)_       |     1      |
+| `GET — Happy Path` — GET /products    | `get-products.data.json`      |     1      |
+| `GET — Happy Path` — GET /product/:id | `get-product-by-id.data.json` |     3      |
+| `GET — Negative` — GET /products      | `get-products.data.json`      |     3      |
+| `GET — Negative` — GET /product/:id   | `get-product-by-id.data.json` |     4      |
+| `POST — Happy Path`                   | `post-products.data.json`     |     2      |
+| `POST — Negative`                     | `post-products.data.json`     |     5      |
+| `PUT — Happy Path`                    | `put-product.data.json`       |     2      |
+| `PUT — Negative`                      | `put-product.data.json`       |     4      |
+| `DELETE — Happy Path`                 | `delete-product.data.json`    |     1      |
+| `DELETE — Negative`                   | `delete-product.data.json`    |     4      |
 
 > **Lưu ý DELETE:** Folder `DELETE — Happy Path` xóa id=11 khỏi in-memory store.
 > Chạy cuối cùng. Restart Provider (`Ctrl+C` rồi `npm start`) để reset về seed data.
@@ -103,6 +104,7 @@ Authorization: Bearer <ISO-8601 timestamp trong vòng 1 giờ>
 ```
 
 Collection Pre-request Script (Collection level) tự động:
+
 1. Sinh `Bearer <new Date().toISOString()>` mỗi iteration
 2. Map `auth_header` từ data file:
    - `"{{validToken}}"` → resolve thành Bearer hợp lệ
@@ -115,4 +117,5 @@ Collection Pre-request Script (Collection level) tự động:
 - Tài liệu data-driven (Write API): [`docs/reports/week06/evidences/QuocTan/data-driven-write-api.md`](../../docs/reports/week06/evidences/QuocTan/data-driven-write-api.md)
 - Test scripts: [`docs/reports/week06/evidences/QuocTan/postman-test-scripts.md`](../../docs/reports/week06/evidences/QuocTan/postman-test-scripts.md)
 - Tổ chức collection: [`docs/reports/week06/evidences/QuocTan/collection-organization.md`](../../docs/reports/week06/evidences/QuocTan/collection-organization.md)
+- Hướng dẫn chạy test: [`docs/reports/week06/evidences/QuocTan/guide.md`](../../docs/reports/week06/evidences/QuocTan/guide.md)
 - Provider API: [`src/sample-api/README.md`](../sample-api/README.md)

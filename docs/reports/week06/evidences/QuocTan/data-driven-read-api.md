@@ -8,15 +8,15 @@
 
 ## 1. Tổng quan kịch bản
 
-| Endpoint           | Kịch bản              | Điều kiện                                  | Status kỳ vọng |
-| :----------------- | :-------------------- | :----------------------------------------- | :------------- |
-| `GET /products`    | Happy path            | Token hợp lệ (ISO-8601, trong vòng 1h)     | `200`          |
-| `GET /products`    | Auth fail — no token  | Không có header `Authorization`            | `401`          |
-| `GET /products`    | Auth fail — bad token | Token sai định dạng / hết hạn              | `401`          |
-| `GET /product/:id` | Happy path — id tồn tại | Token hợp lệ, id = `09`/`10`/`11`       | `200`          |
-| `GET /product/:id` | Not found — id = `99` | Token hợp lệ, id không tồn tại            | `404`          |
-| `GET /product/:id` | Auth fail — no token  | Không có header `Authorization`, id = `10` | `401`          |
-| `GET /product/:id` | Auth fail — expired   | Token đã hết hạn (> 1h), id = `10`        | `401`          |
+| Endpoint           | Kịch bản                | Điều kiện                                  | Status kỳ vọng |
+| :----------------- | :---------------------- | :----------------------------------------- | :------------- |
+| `GET /products`    | Happy path              | Token hợp lệ (ISO-8601, trong vòng 1h)     | `200`          |
+| `GET /products`    | Auth fail — no token    | Không có header `Authorization`            | `401`          |
+| `GET /products`    | Auth fail — bad token   | Token sai định dạng / hết hạn              | `401`          |
+| `GET /product/:id` | Happy path — id tồn tại | Token hợp lệ, id = `09`/`10`/`11`          | `200`          |
+| `GET /product/:id` | Not found — id = `99`   | Token hợp lệ, id không tồn tại             | `404`          |
+| `GET /product/:id` | Auth fail — no token    | Không có header `Authorization`, id = `10` | `401`          |
+| `GET /product/:id` | Auth fail — expired     | Token đã hết hạn (> 1h), id = `10`         | `401`          |
 
 ---
 
@@ -169,20 +169,20 @@ GET_BY_ID_07,Auth fail expired token,10,Bearer 2020-06-01T10:00:00.000Z,401,,,,,
 
 ## 4. Giải thích cột dữ liệu
 
-| Cột                    | Mục đích                                                                              |
-| :--------------------- | :------------------------------------------------------------------------------------ |
-| `tc_id`                | ID test case — dùng trong log assertion để dễ truy vết khi Runner báo lỗi            |
-| `description`          | Mô tả kịch bản — hiện trong Postman Runner results                                    |
-| `product_id`           | Giá trị `:id` trong URL `GET /product/:id` — map vào path variable                   |
-| `auth_header`          | Giá trị header `Authorization` — `{{validToken}}` resolve từ Pre-request script      |
-| `expected_status`      | HTTP status code kỳ vọng — script so sánh `pm.response.code`                         |
-| `expect_array`         | `true` = response body phải là array (dùng cho `GET /products`)                      |
-| `expect_min_length`    | Độ dài tối thiểu của mảng response                                                    |
-| `expect_field_id`      | Giá trị `id` kỳ vọng trong response body (happy path)                                |
-| `expect_field_name`    | Giá trị `name` kỳ vọng trong response body                                           |
-| `expect_field_type`    | Giá trị `type` kỳ vọng trong response body                                           |
-| `expect_message_field` | Tên field trong error body kỳ vọng (404: `"message"`)                                |
-| `expect_error_field`   | Tên field trong error body kỳ vọng (401: `"error"`)                                  |
+| Cột                    | Mục đích                                                                        |
+| :--------------------- | :------------------------------------------------------------------------------ |
+| `tc_id`                | ID test case — dùng trong log assertion để dễ truy vết khi Runner báo lỗi       |
+| `description`          | Mô tả kịch bản — hiện trong Postman Runner results                              |
+| `product_id`           | Giá trị `:id` trong URL `GET /product/:id` — map vào path variable              |
+| `auth_header`          | Giá trị header `Authorization` — `{{validToken}}` resolve từ Pre-request script |
+| `expected_status`      | HTTP status code kỳ vọng — script so sánh `pm.response.code`                    |
+| `expect_array`         | `true` = response body phải là array (dùng cho `GET /products`)                 |
+| `expect_min_length`    | Độ dài tối thiểu của mảng response                                              |
+| `expect_field_id`      | Giá trị `id` kỳ vọng trong response body (happy path)                           |
+| `expect_field_name`    | Giá trị `name` kỳ vọng trong response body                                      |
+| `expect_field_type`    | Giá trị `type` kỳ vọng trong response body                                      |
+| `expect_message_field` | Tên field trong error body kỳ vọng (404: `"message"`)                           |
+| `expect_error_field`   | Tên field trong error body kỳ vọng (401: `"error"`)                             |
 
 ---
 
@@ -190,8 +190,8 @@ GET_BY_ID_07,Auth fail expired token,10,Bearer 2020-06-01T10:00:00.000Z,401,,,,,
 
 ```json
 [
-  { "id": "09", "type": "CREDIT_CARD",   "name": "Gem Visa",   "version": "v1" },
-  { "id": "10", "type": "CREDIT_CARD",   "name": "28 Degrees", "version": "v1" },
+  { "id": "09", "type": "CREDIT_CARD", "name": "Gem Visa", "version": "v1" },
+  { "id": "10", "type": "CREDIT_CARD", "name": "28 Degrees", "version": "v1" },
   { "id": "11", "type": "PERSONAL_LOAN", "name": "MyFlexiPay", "version": "v2" }
 ]
 ```
