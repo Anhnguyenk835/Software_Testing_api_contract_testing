@@ -1,0 +1,78 @@
+[
+  {
+    "tc_id": "PUT_01",
+    "description": "Happy path — cập nhật id=10 với body hợp lệ",
+    "product_id": "10",
+    "auth_header": "{{validToken}}",
+    "body": {
+      "type": "CREDIT_CARD",
+      "name": "28 Degrees Updated",
+      "version": "v2"
+    },
+    "expected_status": 200,
+    "expect_field_id": "10",
+    "expect_field_name": "28 Degrees Updated",
+    "expect_field_version": "v2"
+  },
+  {
+    "tc_id": "PUT_02",
+    "description": "Happy path — cập nhật chỉ name (partial update)",
+    "product_id": "09",
+    "auth_header": "{{validToken}}",
+    "body": {
+      "type": "CREDIT_CARD",
+      "name": "Gem Visa Renewed"
+    },
+    "expected_status": 200,
+    "expect_field_id": "09",
+    "expect_field_name": "Gem Visa Renewed"
+  },
+  {
+    "tc_id": "PUT_03",
+    "description": "Not found — id=99 không tồn tại",
+    "product_id": "99",
+    "auth_header": "{{validToken}}",
+    "body": {
+      "type": "CREDIT_CARD",
+      "name": "Ghost Product"
+    },
+    "expected_status": 404,
+    "expect_message": "Product not found"
+  },
+  {
+    "tc_id": "PUT_04",
+    "description": "Not found — id=abc (không phải số)",
+    "product_id": "abc",
+    "auth_header": "{{validToken}}",
+    "body": {
+      "type": "PERSONAL_LOAN",
+      "name": "Invalid ID Product"
+    },
+    "expected_status": 404,
+    "expect_message": "Product not found"
+  },
+  {
+    "tc_id": "PUT_05",
+    "description": "Auth fail — không có header Authorization",
+    "product_id": "10",
+    "auth_header": "",
+    "body": {
+      "type": "CREDIT_CARD",
+      "name": "No Auth Update"
+    },
+    "expected_status": 401,
+    "expect_error_field": "error"
+  },
+  {
+    "tc_id": "PUT_06",
+    "description": "Auth fail — Bearer timestamp hết hạn",
+    "product_id": "10",
+    "auth_header": "Bearer 2020-01-01T00:00:00.000Z",
+    "body": {
+      "type": "CREDIT_CARD",
+      "name": "Expired Auth Update"
+    },
+    "expected_status": 401,
+    "expect_error_field": "error"
+  }
+]

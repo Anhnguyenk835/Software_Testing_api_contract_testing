@@ -1,0 +1,7 @@
+tc_id,description,product_id,auth_header,body_type,body_name,body_version,expected_status,expect_field_id,expect_field_name,expect_message,expect_error_field
+PUT_01,Happy path id=10,10,{{validToken}},CREDIT_CARD,28 Degrees Updated,v2,200,10,28 Degrees Updated,,
+PUT_02,Happy path id=09 partial,09,{{validToken}},CREDIT_CARD,Gem Visa Renewed,,200,09,Gem Visa Renewed,,
+PUT_03,Not found id=99,99,{{validToken}},CREDIT_CARD,Ghost Product,,404,,,Product not found,
+PUT_04,Not found id=abc,abc,{{validToken}},PERSONAL_LOAN,Invalid ID,,404,,,Product not found,
+PUT_05,Auth fail no token,10,,CREDIT_CARD,No Auth Update,,401,,,,error
+PUT_06,Auth fail expired,10,Bearer 2020-01-01T00:00:00.000Z,CREDIT_CARD,Expired Update,,401,,,,error

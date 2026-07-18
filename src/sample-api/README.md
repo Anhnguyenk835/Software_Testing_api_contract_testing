@@ -23,8 +23,8 @@ Gồm 2 dịch vụ độc lập, nằm trong `pact-workshop-js/` (clone từ re
 
 ```bash
 cd src/sample-api/pact-workshop-js
-npm install     # cài dependencies cho cả consumer/ và provider/ (script postinstall)
-npm start       # chạy đồng thời consumer (:3000) và provider (:8080)
+pnpm install     # cài dependencies cho cả consumer/ và provider/ (script postinstall)
+pnpm start       # chạy đồng thời consumer (:3000) và provider (:8080)
 ```
 
 Sau khi chạy, mở `http://localhost:3000` để xem giao diện Consumer App (danh
@@ -35,13 +35,13 @@ sách sản phẩm lấy từ Provider).
 ```bash
 # Terminal 1 — Provider Service
 cd src/sample-api/pact-workshop-js/provider
-npm install
-npm start        # http://localhost:8080
+pnpm install
+pnpm start        # http://localhost:8080
 
 # Terminal 2 — Consumer App
 cd src/sample-api/pact-workshop-js/consumer
-npm install
-npm start         # http://localhost:3000, gọi API qua REACT_APP_API_BASE_URL (consumer/.env)
+pnpm install
+pnpm start         # http://localhost:3000, gọi API qua REACT_APP_API_BASE_URL (consumer/.env)
 ```
 
 ## Auth (Provider Service)
