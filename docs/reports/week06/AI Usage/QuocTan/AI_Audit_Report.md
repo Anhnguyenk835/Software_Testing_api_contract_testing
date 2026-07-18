@@ -344,7 +344,7 @@ src/postman/data/
 └── delete-product.data.csv
 
 src/postman/collections/
-└── SEBros_Product_API.postman_collection.json
+└── product-service-data-driven.postman_collection.json
     — 9 folder, 10 request, Collection Pre-request, 5 Test Script templates
 
 src/postman/environments/
@@ -378,7 +378,7 @@ Phản biện phát hiện:
 | Total AI interactions                  | 4                                                                                  |
 | AI tools used                          | Claude Sonnet 4.6 (Thinking)                                                       |
 | Features covered                       | Data-Driven Dataset, Postman Test Scripts, Collection Organization & Demo Notes, Implementation & Verification |
-| Documents created / updated            | data-driven-read-api.md, data-driven-write-api.md, postman-test-scripts.md, collection-organization.md, AI_Audit_Report.md (updated), src/postman/README.md, 10 data files, SEBros_Product_API.postman_collection.json, local.postman_environment.json |
+| Documents created / updated            | data-driven-read-api.md, data-driven-write-api.md, postman-test-scripts.md, collection-organization.md, AI_Audit_Report.md (updated), src/postman/README.md, 10 data files, product-service-data-driven.postman_collection.json, local.postman_environment.json |
 | Issues found by audit                  | 7 (2 từ Entry 1-3, 5 từ Entry 4 phản biện)                                        |
 | Issues resolved                        | 6/7 (5 trong tài liệu + 1 trong collection script; CSV whitespace xử lý bằng trim) |
 | Test cases designed (JSON + CSV)       | 29 test cases (4+7+7+6+5) cho 5 endpoint                                           |

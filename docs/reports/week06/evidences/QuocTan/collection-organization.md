@@ -1,4 +1,4 @@
-﻿# Tổ chức Collection và Ghi chú Demo/Seminar — Data-Driven Testing
+# Tổ chức Collection và Ghi chú Demo/Seminar — Data-Driven Testing
 
 **Task:** Gắn data-driven vào folder collection nhóm; soạn ghi chú cho demo/seminar  
 **Thành viên:** Mạch Quốc Tấn (23127115)  
@@ -9,7 +9,7 @@
 ## 1. Cấu trúc folder Collection đề xuất
 
 ```
-SEBros — Product API (Collection)
+Product Service - Data Driven Tests (Collection)
 │
 ├── 🔧 _Setup (Pre-flight)
 │   └── GET /products [smoke test]          ← kiểm tra server đang chạy

@@ -7,7 +7,7 @@ Chứa toàn bộ file Postman cho data-driven testing — **Nhóm 3 (SEBros), T
 ```
 postman/
 ├── collections/
-│   └── SEBros_Product_API.postman_collection.json   # Collection hoàn chỉnh (9 folder, 10 request)
+│   └── product-service-data-driven.postman_collection.json   # Collection hoàn chỉnh (9 folder, 10 request)
 ├── environments/
 │   └── local.postman_environment.json               # baseUrl = http://localhost:8080
 └── data/
@@ -38,9 +38,9 @@ pnpm start   # Provider chạy tại http://localhost:8080
 ### Bước 2: Import vào Postman
 
 1. Mở Postman → **Import**
-2. Chọn file `collections/SEBros_Product_API.postman_collection.json`
+2. Chọn file `collections/product-service-data-driven.postman_collection.json`
 3. Chọn file `environments/local.postman_environment.json`
-4. Chọn environment **"SEBros — Local"** ở góc trên phải
+4. Chọn environment **"Product Service - Local"** ở góc trên phải
 
 ### Bước 3: Chạy Collection Runner với data file
 
@@ -48,7 +48,7 @@ pnpm start   # Provider chạy tại http://localhost:8080
 2. Chọn folder cần chạy (ví dụ: `GET — Happy Path`)
 3. Bật **Data** → chọn file `.json` hoặc `.csv` tương ứng
 4. Set **Iterations** theo số rows (Postman tự detect từ JSON)
-5. Click **Run SEBros — Product API**
+5. Click **Run Product Service - Data Driven Tests**
 
 ### Mapping folder → data file → số iterations
 
@@ -76,7 +76,7 @@ pnpm start   # Provider chạy tại http://localhost:8080
 pnpm add -g newman
 
 # Hoặc dùng pnpm dlx (không cần cài toàn cục)
-pnpm dlx newman run src/postman/collections/SEBros_Product_API.postman_collection.json \
+pnpm dlx newman run src/postman/collections/product-service-data-driven.postman_collection.json \
   --environment src/postman/environments/local.postman_environment.json \
   --iteration-data src/postman/data/get-products.data.json \
   --folder "GET — Happy Path" \
@@ -84,7 +84,7 @@ pnpm dlx newman run src/postman/collections/SEBros_Product_API.postman_collectio
   --reporter-json-export newman-report.json
 
 # Chạy từng folder riêng
-pnpm dlx newman run src/postman/collections/SEBros_Product_API.postman_collection.json \
+pnpm dlx newman run src/postman/collections/product-service-data-driven.postman_collection.json \
   -e src/postman/environments/local.postman_environment.json \
   -d src/postman/data/post-products.data.json \
   --folder "POST — Negative"
