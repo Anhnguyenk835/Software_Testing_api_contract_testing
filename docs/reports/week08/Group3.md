@@ -11,37 +11,53 @@
 
 ### 23127115 – Mạch Quốc Tấn
 
-- Thiết kế và tổng hợp nội dung phần API Testing trong slide báo cáo seminar; phác thảo sơ đồ quy trình hoạt động của Postman CLI và Newman.
-- Phối hợp thống nhất cấu trúc slide, tối ưu hóa nội dung văn bản ngắn gọn, súc tích và trực quan cho người nghe.
+- Thiết kế kiến trúc Agent Skill tái sử dụng: định nghĩa workflow nhận API Specification (OpenAPI/Markdown) để tự động sinh test cases và Postman collection; vẽ sơ đồ kiến trúc + viết pseudocode.
+- Biên soạn nội dung slide API Testing (slides 2-6 trong outline) + phác thảo sơ đồ quy trình hoạt động của Postman CLI và Newman.
+- Viết nội dung Final Report (Final Seminar Report): Chapter 1 (Giới thiệu), Chapter 2 (API Testing), Chapter 4 (Demo & Kịch bản kiểm thử).
+
+Evidence: Expected deliverables: Sơ đồ kiến trúc Agent Skill (`docs/reports/agent-skill-architecture.md`), Slide API Testing (slides 2-6) & Final Report Chapters 1, 2, 4.
 
 ### 23127065 – Ngô Nguyễn Thế Khoa
 
-- Soạn thảo nội dung lý thuyết và sơ đồ kiến trúc Contract Testing (Consumer-Provider) để đưa vào slide.
-- Định hình phong cách thiết kế (theme), hiệu ứng chuyển slide, màu sắc và thống nhất toàn bộ các slide thành viên thành tệp slide báo cáo hoàn chỉnh của nhóm.
+- Soạn thảo nội dung slide Contract Testing (slides 7-8 trong outline). Thiết kế Agenda/sitemap slide (slide 1) đóng vai trò Master Navigation Hub liên kết trực tiếp tới video, báo cáo và nguồn mã nguồn.
+- Thống nhất theme thiết kế Slidev, phối màu trực quan và embed các hyperlink dẫn tới artifacts tương ứng.
+- Viết nội dung Final Report (Final Seminar Report): Chapter 3 (Contract Testing), Chapter 5 (Automation/CI-CD), Chapter 6 (Kết luận & Đánh giá tính tái sử dụng), Chapter 7 (Tài liệu tham khảo) và bài nhận xét AI Critique (200-300 từ).
+
+Evidence: Expected deliverables: Slide Master Navigation Hub (`docs/slides/slides.md`), Final Report Chapters 3, 5, 6, 7 & AI Critique.
 
 ### 23127211 – Nguyễn Lê Hồ Anh Khoa
 
-- Lập kịch bản chi tiết và thực hiện quay dựng Video 1 (Trình bày lý thuyết API & Contract Testing).
-- Quay dựng Video 2 (Hướng dẫn cài đặt công cụ: Node.js, Postman Desktop, VS Code extension REST Client, Pact CLI).
+- Cập nhật tài liệu README.md của repository: bổ sung hướng dẫn sử dụng Agent Skill, giải thích cấu trúc thư mục mới và hướng dẫn từng bước áp dụng cho API bất kỳ ngoài eShop.
+- Lập kịch bản chi tiết (video script) cho Video 1 (Trình bày lý thuyết API & Contract Testing) và Video 5 (Demo tính tái sử dụng của Agent Skill trên PetStore API) dựa trên bộ slide Slidev đã hoàn thiện.
+
+Evidence: Expected deliverables: Tệp `README.md` cập nhật & Kịch bản chi tiết Video 1, 5.
 
 ### 23127148 – Ân Tiến Nguyên An
 
-- Soạn thảo và hoàn thiện tài liệu hướng dẫn thực hành từng bước (Step-by-step Lab Manual / README.md) trên GitHub để phục vụ cho các bạn học viên trong lớp thực hành.
-- Tiến hành quay dựng Video 4 (Demo hướng dẫn thực hành Pact Contract Testing & CI/CD workflow).
+- Lập trình thực thi Agent Skill prototype: viết tệp SKILL.md và script tự động sinh Postman collection từ API spec đầu vào (được tham số hóa hoàn toàn, không hardcode eShop).
+- Tích hợp bộ prompt templates vào Agent Skill và biên soạn tài liệu Lab Manual hướng dẫn sinh viên áp dụng skill để tạo bài kiểm thử cho project bất kỳ.
+
+Evidence: Expected deliverables: Mã nguồn Agent Skill (`.agents/skills/api-testing/SKILL.md`) & Tài liệu Lab Manual (`docs/lab-manual.md`).
 
 ### 23127152 – Nguyễn Tuấn Anh
 
-- Quay dựng Video 3 (Demo hướng dẫn thực hành viết test cases trên Postman, Data-driven và CI/CD GitHub Actions).
-- Chỉnh sửa, tối ưu hóa âm thanh và chất lượng hiển thị của Video 3 trước khi chuẩn bị nộp bài.
+- Xây dựng bộ cẩm nang prompt guide (standalone) cho ChatGPT/Claude giúp sinh tự động test script Postman và contract test dưới dạng template tái sử dụng.
+- Lập kịch bản chi tiết cho Video 2 (Hướng dẫn cài đặt công cụ) và Video 3 (Demo hướng dẫn thực hành viết test trên Postman, Data-driven, CI/CD GitHub Actions cùng tính năng Postman Workspaces và Monitors).
+
+Evidence: Expected deliverables: Standalone Prompt Guide & Kịch bản chi tiết Video 2, 3.
 
 ## AI Usage Declaration
 
+Nhóm đã sử dụng các công cụ AI (Gemini, Claude, ChatGPT) để hỗ trợ thiết kế kiến trúc Agent Skill, biên soạn nội dung Final Report và tổng hợp các tài liệu hướng dẫn kịch bản video.
+
+Link: Expected deliverable: `AI_Audit_Report.md` (sẽ được ghi nhận bằng chứng khi thực hiện trong tuần)
+
 ## Tasks Planned for Next Week
 
-- Thực hiện chạy thử nghiệm (dry-run) thuyết trình, tổng duyệt slide và hoàn thiện các kịch bản thực hành.
-- Soạn thảo và gửi cho lớp danh sách các công cụ bắt buộc cài đặt trước buổi seminar.
-- Upload tất cả video hướng dẫn và demo lên Google Drive để lấy link chia sẻ chính thức.
-- Tổng hợp danh mục tài liệu tham khảo (References) và đóng gói hồ sơ nộp báo cáo hoàn chỉnh.
+- Quay dựng và chỉnh sửa hoàn chỉnh 4 video chính (Video 1-4) cùng Video demo tính tái sử dụng của Agent Skill trên API ngoài eShop.
+- Thực hiện chạy thử nghiệm (dry-run) thuyết trình, kiểm tra toàn bộ liên kết (hyperlinks) trên slide HTML Navigation Hub.
+- Thực hiện kiểm thử trên môi trường máy sạch (clean environment verification) để đảm bảo quy trình thực hành trong Lab Manual hoạt động chính xác tuyệt đối.
+- Tổng hợp AI Audit Report, hoàn thiện báo cáo cuối (Markdown + PDF) và đăng bài Moodle post đúng định dạng quy định.
 
 ## Issues
 
